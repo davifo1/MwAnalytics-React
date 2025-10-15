@@ -1645,7 +1645,8 @@ export function monstersRoutes(server) {
     }
   });
 
-  // API endpoint to save monster data
+  // API endpoint to save monster data - DISABLED (read-only mode)
+  /*
   server.middlewares.use('/api/monsters/save', async (req, res, next) => {
     if (req.method !== 'POST') {
       return sendError(res, 405, 'Method not allowed');
@@ -2013,6 +2014,7 @@ export function monstersRoutes(server) {
       }
     }
   });
+  */
 
   // API endpoint to get monster name to filename mapping
   server.middlewares.use('/api/monsters/name-to-file', async (req, res, next) => {
