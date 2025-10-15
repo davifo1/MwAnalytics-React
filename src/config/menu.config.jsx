@@ -2,11 +2,8 @@ import {
   TrendingUp,
   Ghost,
   UserCheck,
-  List,
-  BarChart3,
   Sword,
   Map,
-  CheckCircle,
   LineChart,
 } from 'lucide-react';
 
@@ -33,37 +30,12 @@ export const MENU_SIDEBAR_COMPACT = [
         title: 'Monster Loot',
         path: '/items/monster-loot',
       },
-      {
-        title: 'Gathering Items',
-        path: '/items/map-items',
-      },
-      {
-        title: 'Validator',
-        path: '/items/validator',
-        icon: CheckCircle,
-      },
     ],
   },
   {
     title: 'Monstros',
+    path: '/monsters',
     icon: Ghost,
-    children: [
-      {
-        title: 'Listar',
-        path: '/monsters',
-        icon: List,
-      },
-      {
-        title: 'Métricas',
-        path: '/monsters/metrics',
-        icon: BarChart3,
-      },
-      {
-        title: 'Validator',
-        path: '/monsters/validator',
-        icon: CheckCircle,
-      },
-    ],
   },
   {
     title: 'Classes',

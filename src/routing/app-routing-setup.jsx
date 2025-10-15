@@ -1,11 +1,7 @@
 import { Demo6Layout } from '@/layouts/demo6/layout';
 import { ItemsPage } from '@/modules/items/ItemsPage';
 import { MonsterLootItemsPage } from '@/modules/items/MonsterLootItemsPage';
-import { MapItemsPage } from '@/modules/items/MapItemsPage';
-import { ItemValidatorPage } from '@/modules/items/ItemValidatorPage';
 import { MonstersPage } from '@/modules/monsters/MonstersPage';
-import MonstersMetricsPage from '@/modules/monsters/MonstersMetricsPage';
-import { MonsterValidatorPage } from '@/modules/monsters/MonsterValidatorPage';
 import { ClassesPage } from '@/modules/classes/ClassesPage';
 import { DashboardPage } from '@/modules/dashboard/DashboardPage';
 import { HealthCheckPage } from '@/modules/utils/HealthCheckPage';
@@ -23,11 +19,7 @@ export function AppRoutingSetup() {
         <Route path="/items" element={<ItemsPage viewType="all" />} />
         <Route path="/items/equipment" element={<ItemsPage viewType="equipment" />} />
         <Route path="/items/monster-loot" element={<MonsterLootItemsPage />} />
-        <Route path="/items/map-items" element={<MapItemsPage />} />
-        <Route path="/items/validator" element={<ItemValidatorPage />} />
         <Route path="/monsters" element={<MonstersPage />} />
-        <Route path="/monsters/metrics" element={<MonstersMetricsPage />} />
-        <Route path="/monsters/validator" element={<MonsterValidatorPage />} />
         <Route path="/classes" element={<ClassesPage />} />
         <Route path="/utils/health-check" element={<HealthCheckPage />} />
         <Route path="/map/gathering-by-regions" element={<RegionsPage />} />
