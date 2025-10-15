@@ -50,7 +50,6 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Textarea } from '@/components/ui/textarea';
 import { RichTextArea } from '@/components/ui/rich-text-area';
 import { FilterCounter } from '@/components/ui/filter-counter';
-import { Save, RotateCcw, Edit2 } from 'lucide-react';
 import {
   Popover,
   PopoverContent,
@@ -168,8 +167,7 @@ const ItemsPage = ({ viewType = 'all' }) => {
   const [loading, setLoading] = useState(true);
   const [onlyPickupable, setOnlyPickupable] = useState(true); // Default ativado
   const [selectedItem, setSelectedItem] = useState(null); // Item selecionado para detalhes
-  const [editingItem, setEditingItem] = useState(null); // Item sendo editado
-  const [isEditing, setIsEditing] = useState(false); // Modo de edição
+  const [editingItem, setEditingItem] = useState(null); // Item sendo visualizado
   const [buildableItems, setBuildableItems] = useState([]); // BuildableItems do baldur
   const [equipGoldValue, setEquipGoldValue] = useState(null); // Cálculo do valor em gold do equipamento
   const [itemsWithGoldValues, setItemsWithGoldValues] = useState([]); // Items com valores de gold pré-calculados
@@ -314,7 +312,6 @@ const ItemsPage = ({ viewType = 'all' }) => {
   useEffect(() => {
     setSelectedItem(null);
     setEditingItem(null);
-    setIsEditing(false);
     setSearchQuery('');
     setSelectedCategories([]);
     setSelectedSlotTypes([]);
@@ -642,45 +639,6 @@ const ItemsPage = ({ viewType = 'all' }) => {
 
     setSelectedItem(item);
     setEditingItem(item);
-    setIsEditing(false);
-  };
-
-  // Funções de edição
-  const handleEdit = () => {
-    setIsEditing(true);
-  };
-
-  const handleCancel = () => {
-    setEditingItem(selectedItem);
-    setIsEditing(false);
-  };
-
-  const handleSave = () => {
-    // Atualiza o item na lista
-    const updatedItems = items.map(item =>
-      item.id === editingItem.id ? editingItem : item
-    );
-    setItems(updatedItems);
-    setSelectedItem(editingItem);
-    setIsEditing(false);
-    toast.success(`Item ${editingItem.name} updated successfully`);
-  };
-
-  const handleFieldChange = (field, value) => {
-    setEditingItem(prev => ({
-      ...prev,
-      [field]: value
-    }));
-  };
-
-  const handleAttributeChange = (key, value) => {
-    setEditingItem(prev => ({
-      ...prev,
-      attributes: {
-        ...prev.attributes,
-        [key]: value
-      }
-    }));
   };
 
   const table = useReactTable({
@@ -1050,37 +1008,6 @@ const ItemsPage = ({ viewType = 'all' }) => {
             </CardHeading>
             {selectedItem && (
               <div className="flex items-center gap-2">
-                {!isEditing ? (
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={handleEdit}
-                    className="h-7"
-                  >
-                    <Edit2 className="h-3 w-3 mr-1" />
-                    Edit
-                  </Button>
-                ) : (
-                  <>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={handleCancel}
-                      className="h-7"
-                    >
-                      <RotateCcw className="h-3 w-3 mr-1" />
-                      Cancel
-                    </Button>
-                    <Button
-                      size="sm"
-                      onClick={handleSave}
-                      className="h-7 bg-green-600 hover:bg-green-700"
-                    >
-                      <Save className="h-3 w-3 mr-1" />
-                      Save
-                    </Button>
-                  </>
-                )}
                 <Button
                   variant="ghost"
                   size="sm"
@@ -1092,7 +1019,6 @@ const ItemsPage = ({ viewType = 'all' }) => {
 
                     setSelectedItem(null);
                     setEditingItem(null);
-                    setIsEditing(false);
                   }}
                   className="h-7"
                 >
@@ -1121,8 +1047,7 @@ const ItemsPage = ({ viewType = 'all' }) => {
                         <Label className="text-xs text-gray-400">Name *</Label>
                         <Input
                           value={editingItem.name || ''}
-                          onChange={(e) => handleFieldChange('name', e.target.value)}
-                          disabled={!isEditing}
+                          disabled={true}
                           className="mt-1 bg-gray-800 border-gray-700 text-gray-200 h-8 text-sm"
                         />
                       </div>
@@ -1130,8 +1055,7 @@ const ItemsPage = ({ viewType = 'all' }) => {
                         <Label className="text-xs text-gray-400">Article</Label>
                         <Input
                           value={editingItem.article || ''}
-                          onChange={(e) => handleFieldChange('article', e.target.value)}
-                          disabled={!isEditing}
+                          disabled={true}
                           className="mt-1 bg-gray-800 border-gray-700 text-gray-200 h-8 text-sm"
                           placeholder="a, an"
                           maxLength={5}
@@ -1141,8 +1065,7 @@ const ItemsPage = ({ viewType = 'all' }) => {
                         <Label className="text-xs text-gray-400">Plural</Label>
                         <Input
                           value={editingItem.plural || ''}
-                          onChange={(e) => handleFieldChange('plural', e.target.value)}
-                          disabled={!isEditing}
+                          disabled={true}
                           className="mt-1 bg-gray-800 border-gray-700 text-gray-200 h-8 text-sm"
                           maxLength={5}
                         />
@@ -1162,7 +1085,7 @@ const ItemsPage = ({ viewType = 'all' }) => {
                             const ozValue = parseFloat(e.target.value);
                             handleFieldChange('weight', isNaN(ozValue) ? null : Math.round(ozValue * 100));
                           }}
-                          disabled={!isEditing}
+                          disabled={true}
                           className="mt-1 bg-gray-800 border-gray-700 text-gray-200 h-8 text-sm"
                           placeholder="0.00"
                           step="0.01"
@@ -1176,7 +1099,7 @@ const ItemsPage = ({ viewType = 'all' }) => {
                           type="number"
                           value={editingItem.attributes?.price || ''}
                           onChange={(e) => handleAttributeChange('price', e.target.value)}
-                          disabled={!isEditing}
+                          disabled={true}
                           className="mt-1 bg-gray-800 border-gray-700 text-gray-200 h-8 text-sm"
                           placeholder="0"
                         />
@@ -1189,7 +1112,7 @@ const ItemsPage = ({ viewType = 'all' }) => {
                           type="number"
                           value={editingItem.sellPrice || editingItem.attributes?.sellingPrice || ''}
                           onChange={(e) => handleFieldChange('sellPrice', e.target.value ? Number(e.target.value) : null)}
-                          disabled={!isEditing}
+                          disabled={true}
                           className="mt-1 bg-gray-800 border-gray-700 text-gray-200 h-8 text-sm"
                           placeholder="0"
                         />
@@ -1202,7 +1125,7 @@ const ItemsPage = ({ viewType = 'all' }) => {
                           type="number"
                           value={editingItem.valuation || editingItem.attributes?.valuation || ''}
                           onChange={(e) => handleFieldChange('valuation', e.target.value ? Number(e.target.value) : null)}
-                          disabled={!isEditing}
+                          disabled={true}
                           className="mt-1 bg-gray-800 border-gray-700 text-gray-200 h-8 text-sm"
                           placeholder="0"
                         />
@@ -1218,7 +1141,7 @@ const ItemsPage = ({ viewType = 'all' }) => {
                         <RichTextArea
                           value={editingItem.attributes?.descPtBr || ''}
                           onChange={(e) => handleAttributeChange('descPtBr', e.target.value)}
-                          disabled={!isEditing}
+                          disabled={true}
                           className="mt-1 text-sm min-h-[80px]"
                           placeholder="Descrição em português..."
                         />
@@ -1230,7 +1153,7 @@ const ItemsPage = ({ viewType = 'all' }) => {
                         <RichTextArea
                           value={editingItem.attributes?.descEnUs || ''}
                           onChange={(e) => handleAttributeChange('descEnUs', e.target.value)}
-                          disabled={!isEditing}
+                          disabled={true}
                           className="mt-1 text-sm min-h-[80px]"
                           placeholder="Description in English..."
                         />
@@ -1249,7 +1172,7 @@ const ItemsPage = ({ viewType = 'all' }) => {
                         <Input
                           value={editingItem.categories || ''}
                           onChange={(e) => handleFieldChange('categories', e.target.value)}
-                          disabled={!isEditing}
+                          disabled={true}
                           className="mt-1 bg-gray-800 border-gray-700 text-gray-200 h-8 text-sm"
                           placeholder="tool;weapon;armor"
                         />
@@ -1261,7 +1184,7 @@ const ItemsPage = ({ viewType = 'all' }) => {
                         <Input
                           value={editingItem.tier || ''}
                           onChange={(e) => handleFieldChange('tier', e.target.value)}
-                          disabled={!isEditing}
+                          disabled={true}
                           className="mt-1 bg-gray-800 border-gray-700 text-gray-200 h-8 text-sm"
                           placeholder="common, rare, epic..."
                         />
@@ -1313,7 +1236,7 @@ const ItemsPage = ({ viewType = 'all' }) => {
                                   <Input
                                     value={value || ''}
                                     onChange={(e) => handleAttributeChange(key, e.target.value)}
-                                    disabled={!isEditing}
+                                    disabled={true}
                                     className="col-span-2 bg-gray-900 border-gray-700 text-gray-200 h-7 text-sm font-mono"
                                   />
                                 </div>
@@ -1362,7 +1285,7 @@ const ItemsPage = ({ viewType = 'all' }) => {
                                 <Input
                                   value={value || ''}
                                   onChange={(e) => handleAttributeChange(key, e.target.value)}
-                                  disabled={!isEditing}
+                                  disabled={true}
                                   className="col-span-2 bg-gray-900 border-gray-700 text-gray-200 h-7 text-sm font-mono"
                                 />
                               </div>
