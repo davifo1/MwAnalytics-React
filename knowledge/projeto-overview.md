@@ -1,4 +1,4 @@
-# Magic Wings Server Backoffice - Visão Geral
+# Magic Wings Analytics - Visão Geral
 
 ## Informações do Projeto
 
@@ -55,7 +55,7 @@
 
 ### Estrutura de Pastas
 ```
-MWServerBKO/
+MWAnalytics/
 ├── knowledge/          # Documentação completa
 ├── metronic-v9.2.9/   # Template de referência
 ├── src/               # Código fonte

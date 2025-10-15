@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-MWServerBKO (Magic Wings Server Backoffice) is a local desktop application for managing an MMO RPG game (Magic Wings). It's built with React and uses XML files as the database, operating completely offline.
+MW Analytics (Magic Wings Analytics) is a local desktop application for managing an MMO RPG game (Magic Wings). It's built with React and uses XML files as the database, operating completely offline.
 
 ## Development Commands
 

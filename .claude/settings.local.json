@@ -21,7 +21,8 @@
       "Read(//c/gdev-workspace/Forgotten-Dream-Server/data/monster/_dream/**)",
       "Bash(del \"C:\\Users\\davif\\WebstormProjects\\MWServerBKO\\src\\components\\MultipleItemInputChip.jsx\")",
       "Bash(timeout:*)",
-      "Read(//c/gdev-workspace/Forgotten-Dream-Server/data/world/**)"
+      "Read(//c/gdev-workspace/Forgotten-Dream-Server/data/world/**)",
+      "Bash(dir \"C:\\gdev-workspace\\MWAnalytics\\public\\media\\app\")"
     ],
     "deny": [],
     "ask": []

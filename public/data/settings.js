@@ -1,6 +1,6 @@
 /**
  * Application settings
- * Configurações do MWServerBKO - caminhos para arquivos do jogo
+ * Configurações do MW Analytics - caminhos para arquivos do jogo
  */
 
 // Path base - todos os outros paths são concatenados com este
