@@ -6,10 +6,7 @@ import { Progress } from '@/components/ui/progress';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Loader2, MapPin, Ghost, Target, TrendingUp, Hammer, Map as MapIcon, Filter, Package, Copy } from 'lucide-react';
-import BaldurService from '@/services/baldurService';
 import MonsterInputChip from '@/components/MonsterInputChip';
 import ItemMultiSelect from '@/components/ItemMultiSelect';
 import { ItemsService } from '@/services/itemsService';
@@ -24,9 +21,6 @@ export function MonstersByRegionsPage() {
   const [loading, setLoading] = useState(true);
   const [loadingProgress, setLoadingProgress] = useState(0);
   const [error, setError] = useState(null);
-  const [speciesModalOpen, setSpeciesModalOpen] = useState(false);
-  const [craftAccumulationModalOpen, setCraftAccumulationModalOpen] = useState(false);
-  const [buildableItems, setBuildableItems] = useState([]);
   const [selectedMonsters, setSelectedMonsters] = useState([]);
   const [selectedItems, setSelectedItems] = useState([]);
   const [availableItems, setAvailableItems] = useState([]);
@@ -36,7 +30,6 @@ export function MonstersByRegionsPage() {
 
   useEffect(() => {
     loadMonstersByRegion();
-    loadBuildableItemsData();
     loadAvailableItems();
   }, []);
 
@@ -47,11 +40,6 @@ export function MonstersByRegionsPage() {
     } catch (error) {
       console.error('Error loading items:', error);
     }
-  }
-
-  async function loadBuildableItemsData() {
-    const items = await BaldurService.loadBuildableItems();
-    setBuildableItems(items);
   }
 
   async function loadMonstersByRegion() {
@@ -114,37 +102,6 @@ export function MonstersByRegionsPage() {
     } finally {
       setLoadingSpawnPositions(false);
     }
-  }
-
-  function getSortedSpecies() {
-    if (!selectedRegion?.uniqueSpecies) return [];
-
-    const species = [...selectedRegion.uniqueSpecies];
-
-    // Sort: first by hasPrimaryCraft (with unlock <= maxLevel), then by maxLevel
-    return species.sort((a, b) => {
-      const aCraftUnlocked = a.hasPrimaryCraft && a.primaryCraftUnlockLevel <= a.maxLevel;
-      const bCraftUnlocked = b.hasPrimaryCraft && b.primaryCraftUnlockLevel <= b.maxLevel;
-
-      if (aCraftUnlocked && !bCraftUnlocked) return -1;
-      if (!aCraftUnlocked && bCraftUnlocked) return 1;
-
-      // If both have craft or both don't, sort by maxLevel
-      return a.maxLevel - b.maxLevel;
-    });
-  }
-
-  function findFinalItemForMaterial(materialName) {
-    if (!buildableItems || buildableItems.length === 0) return materialName;
-
-    // Find the first buildable item that uses this material
-    const finalItem = buildableItems.find(item =>
-      item.build.some(buildMaterial =>
-        buildMaterial.itemName.toLowerCase() === materialName.toLowerCase()
-      )
-    );
-
-    return finalItem ? finalItem.itemName : materialName;
   }
 
   // Get all unique monsters from all regions
@@ -331,104 +288,6 @@ export function MonstersByRegionsPage() {
     };
   }, [filteredRegions]);
 
-  function getCraftAccumulationData() {
-    if (!regions || regions.length === 0) return [];
-
-    // Sort regions by minLevel (ascending)
-    const sortedRegions = [...regions].sort((a, b) => a.minLevel - b.minLevel);
-
-    // Global map to track crafts across all regions: materialName -> { finalItemName, monsterName, spawnsByRegion: Map }
-    const globalCrafts = new Map();
-
-    return sortedRegions.map(region => {
-      // Get all monsters with crafts from all areas and shrines (data from API already has correct calculations)
-      const allAreas = [...(region.areas || []), ...(region.shrines || [])];
-
-      allAreas.forEach(area => {
-        area.monsters?.forEach(monster => {
-          // Check if monster has craft data from API
-          if (monster.hasPrimaryCraft && monster.primaryCraftItemName && monster.primaryCraftUnlockLevel) {
-            const materialName = monster.primaryCraftItemName;
-
-            // Calculate effective level using same logic as "Detalhes da Área"
-            const regionVarLevel = region.regionVarLevel || 0;
-            const areaVarLevel = area.areaVarLevel || 0;
-            const totalVarLevel = regionVarLevel + areaVarLevel;
-            const effectiveLevel = Math.round(monster.defaultLevel * (1 + totalVarLevel / 100));
-
-            // Only count if craft is unlocked at this effective level (same logic as panel 3)
-            if (monster.primaryCraftUnlockLevel <= effectiveLevel) {
-              if (!globalCrafts.has(materialName)) {
-                const finalItemName = findFinalItemForMaterial(materialName);
-                globalCrafts.set(materialName, {
-                  materialName,
-                  finalItemName,
-                  monsterName: monster.name,
-                  spawnsByRegion: new Map()
-                });
-              }
-
-              const craftData = globalCrafts.get(materialName);
-              const currentCount = craftData.spawnsByRegion.get(region.name) || 0;
-              craftData.spawnsByRegion.set(region.name, currentCount + monster.count);
-            }
-          }
-        });
-      });
-
-      // Build accumulated list for this region
-      const accumulatedCrafts = [];
-      globalCrafts.forEach((craftData) => {
-        const currentRegionSpawns = craftData.spawnsByRegion.get(region.name) || 0;
-
-        // Calculate total accumulated spawns up to this region
-        let totalSpawns = 0;
-        sortedRegions.forEach(r => {
-          if (r.minLevel <= region.minLevel) {
-            totalSpawns += craftData.spawnsByRegion.get(r.name) || 0;
-          }
-        });
-
-        // Get breakdown by region (only regions up to current)
-        const breakdown = [];
-        sortedRegions.forEach(r => {
-          if (r.minLevel <= region.minLevel) {
-            const spawns = craftData.spawnsByRegion.get(r.name) || 0;
-            if (spawns > 0) {
-              breakdown.push({ regionName: r.name, spawns });
-            }
-          }
-        });
-
-        accumulatedCrafts.push({
-          materialName: craftData.materialName,
-          finalItemName: craftData.finalItemName,
-          monsterName: craftData.monsterName,
-          currentRegionSpawns,
-          totalSpawns,
-          breakdown
-        });
-      });
-
-      // Calculate missing crafts
-      const availableFinalItems = new Set(accumulatedCrafts.map(c => c.finalItemName.toLowerCase()));
-      const missingCrafts = buildableItems
-        .filter(item => !availableFinalItems.has(item.itemName.toLowerCase()))
-        .map(item => item.itemName)
-        .sort((a, b) => a.localeCompare(b));
-
-      // Return region data with accumulated crafts sorted by total spawns (descending)
-      return {
-        regionName: region.name,
-        minLevel: region.minLevel,
-        recommendedLevel: region.recommendedLevel,
-        crafts: accumulatedCrafts.sort((a, b) => b.totalSpawns - a.totalSpawns),
-        totalBuildableItems: buildableItems.length,
-        missingCrafts
-      };
-    });
-  }
-
   return (
     <Container data-panel-id="map-monsters-by-regions" className="!px-2.5 lg:!px-3.5">
       <div className="flex flex-col gap-3">
@@ -524,18 +383,9 @@ export function MonstersByRegionsPage() {
                   <CardHeading>
                     <div className="flex items-center justify-between gap-2">
                       <span className="text-sm font-medium text-gray-200">Resumo das Regiões</span>
-                      <div className="flex items-center gap-2">
-                        <button
-                          onClick={() => setCraftAccumulationModalOpen(true)}
-                          className="px-2 py-1 text-[10px] font-medium text-emerald-300 bg-emerald-900/30 hover:bg-emerald-900/50 rounded border border-emerald-600/50 hover:border-emerald-500 transition-colors flex items-center gap-1"
-                        >
-                          <Hammer className="size-3" />
-                          Crafts Acumulados
-                        </button>
-                        <Badge variant="secondary" className="bg-gray-800 text-gray-300 text-xs">
-                          {filteredRegions.length} regiões
-                        </Badge>
-                      </div>
+                      <Badge variant="secondary" className="bg-gray-800 text-gray-300 text-xs">
+                        {filteredRegions.length} regiões
+                      </Badge>
                     </div>
                   </CardHeading>
                 </CardHeader>
@@ -708,34 +558,24 @@ export function MonstersByRegionsPage() {
                         <Card className="border-blue-500/50 bg-blue-500/5">
                           <CardContent className="p-3">
                             <div className="flex flex-col gap-2">
-                              {/* Header com título e botão */}
-                              <div className="flex items-start justify-between gap-2">
+                              {/* Header com título */}
+                              <div className="flex items-center gap-2">
+                                <MapPin className="size-3.5 text-blue-400 flex-shrink-0" />
                                 <div className="flex-1 min-w-0">
-                                  <div className="flex items-center gap-2">
-                                    <MapPin className="size-3.5 text-blue-400 flex-shrink-0" />
-                                    <div className="flex-1 min-w-0">
-                                      <h3 className="text-sm font-semibold text-blue-400 truncate">
-                                        {selectedRegion.name}
-                                      </h3>
-                                      <div className="flex items-center gap-1.5 mt-0.5">
-                                        {selectedRegion.recommendedLevel && (
-                                          <span className="text-[10px] text-gray-500">
-                                            Lv {selectedRegion.recommendedLevel}
-                                          </span>
-                                        )}
-                                        <Badge variant="outline" className="border-gray-600 text-gray-400 text-[9px] px-1.5 py-0">
-                                          {selectedRegion.regionVarLevel > 0 ? `+${selectedRegion.regionVarLevel}` : selectedRegion.regionVarLevel}%
-                                        </Badge>
-                                      </div>
-                                    </div>
+                                  <h3 className="text-sm font-semibold text-blue-400 truncate">
+                                    {selectedRegion.name}
+                                  </h3>
+                                  <div className="flex items-center gap-1.5 mt-0.5">
+                                    {selectedRegion.recommendedLevel && (
+                                      <span className="text-[10px] text-gray-500">
+                                        Lv {selectedRegion.recommendedLevel}
+                                      </span>
+                                    )}
+                                    <Badge variant="outline" className="border-gray-600 text-gray-400 text-[9px] px-1.5 py-0">
+                                      {selectedRegion.regionVarLevel > 0 ? `+${selectedRegion.regionVarLevel}` : selectedRegion.regionVarLevel}%
+                                    </Badge>
                                   </div>
                                 </div>
-                                <button
-                                  onClick={() => setSpeciesModalOpen(true)}
-                                  className="px-2 py-1 text-[10px] font-medium text-gray-300 bg-gray-700 hover:bg-gray-600 rounded border border-gray-600 hover:border-gray-500 transition-colors flex-shrink-0"
-                                >
-                                  Ver Espécies
-                                </button>
                               </div>
 
                               {/* Estatísticas em grid */}
@@ -1050,90 +890,6 @@ export function MonstersByRegionsPage() {
           </div>
         )}
 
-        {/* Species Modal */}
-        <Dialog open={speciesModalOpen} onOpenChange={setSpeciesModalOpen}>
-          <DialogContent className="max-w-4xl bg-gray-900 border-gray-700">
-            <DialogHeader>
-              <DialogTitle className="text-gray-100">
-                Espécies da Região - {selectedRegion?.name}
-              </DialogTitle>
-            </DialogHeader>
-            <ScrollArea className="h-[600px] mt-4">
-              <div className="overflow-x-auto">
-                <table className="w-full">
-                  <thead className="sticky top-0 bg-gray-900 border-b border-gray-700">
-                    <tr>
-                      <th className="text-left py-3 px-4 text-sm font-semibold text-gray-300">Monstro</th>
-                      <th className="text-center py-3 px-4 text-sm font-semibold text-gray-300">Power</th>
-                      <th className="text-center py-3 px-4 text-sm font-semibold text-gray-300">Level Min</th>
-                      <th className="text-center py-3 px-4 text-sm font-semibold text-gray-300">Level Max</th>
-                      <th className="text-center py-3 px-4 text-sm font-semibold text-gray-300">Craft</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-gray-800">
-                    {getSortedSpecies().map((species) => {
-                      const craftUnlocked = species.hasPrimaryCraft && species.primaryCraftUnlockLevel <= species.maxLevel;
-
-                      return (
-                        <tr
-                          key={species.name}
-                          className={`hover:bg-gray-800/50 transition-colors ${
-                            craftUnlocked ? 'bg-emerald-900/10' : ''
-                          }`}
-                        >
-                          <td className="py-3 px-4">
-                            <div className="flex items-center gap-2">
-                              <Ghost className="size-4 text-red-400 flex-shrink-0" />
-                              <span className="text-sm text-gray-200">{species.name}</span>
-                            </div>
-                          </td>
-                          <td className="py-3 px-4 text-center">
-                            <span className="text-sm text-gray-300">{species.power.toFixed(1)}</span>
-                          </td>
-                          <td className="py-3 px-4 text-center">
-                            <Badge variant="outline" className="border-blue-600 text-blue-400">
-                              Lv {species.minLevel}
-                            </Badge>
-                          </td>
-                          <td className="py-3 px-4 text-center">
-                            <Badge variant="outline" className="border-purple-600 text-purple-400">
-                              Lv {species.maxLevel}
-                            </Badge>
-                          </td>
-                          <td className="py-3 px-4 text-center">
-                            {craftUnlocked ? (
-                              <div className="flex flex-col items-center gap-1">
-                                <Badge className="bg-emerald-600 text-emerald-100">
-                                  <Hammer className="size-3 mr-1" />
-                                  Lv {species.primaryCraftUnlockLevel}
-                                </Badge>
-                                {species.primaryCraftItemName && (
-                                  <span className="text-xs text-gray-400">{species.primaryCraftItemName}</span>
-                                )}
-                              </div>
-                            ) : species.hasPrimaryCraft ? (
-                              <div className="flex flex-col items-center gap-1">
-                                <Badge variant="outline" className="border-gray-600 text-gray-500">
-                                  Lv {species.primaryCraftUnlockLevel} (bloqueado)
-                                </Badge>
-                                {species.primaryCraftItemName && (
-                                  <span className="text-xs text-gray-600">{species.primaryCraftItemName}</span>
-                                )}
-                              </div>
-                            ) : (
-                              <span className="text-xs text-gray-600">—</span>
-                            )}
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
-              </div>
-            </ScrollArea>
-          </DialogContent>
-        </Dialog>
-
         {/* Spawn Positions Modal */}
         <Dialog open={spawnPositionsModalOpen} onOpenChange={setSpawnPositionsModalOpen}>
           <DialogContent className="max-w-3xl bg-gray-900 border-gray-700">
@@ -1226,131 +982,6 @@ export function MonstersByRegionsPage() {
                 </ScrollArea>
               </div>
             ) : null}
-          </DialogContent>
-        </Dialog>
-
-        {/* Craft Accumulation Modal */}
-        <Dialog open={craftAccumulationModalOpen} onOpenChange={setCraftAccumulationModalOpen}>
-          <DialogContent className="max-w-6xl bg-gray-900 border-gray-700">
-            <DialogHeader>
-              <DialogTitle className="text-gray-100 flex items-center gap-2">
-                <Hammer className="size-5 text-emerald-400" />
-                Primary Crafts Acumulados por Região
-              </DialogTitle>
-            </DialogHeader>
-            <ScrollArea className="h-[600px] mt-4">
-              <Accordion type="multiple" className="w-full space-y-2">
-                {getCraftAccumulationData().map((regionData, idx) => (
-                  <AccordionItem
-                    key={regionData.regionName}
-                    value={regionData.regionName}
-                    className="bg-gray-800 border border-gray-700 rounded-lg px-4"
-                  >
-                    <AccordionTrigger className="hover:no-underline py-3">
-                      <div className="flex items-center justify-between w-full pr-4">
-                        <div className="flex items-center gap-2">
-                          <MapPin className="size-4 text-blue-400" />
-                          <h3 className="text-sm font-semibold text-gray-100">
-                            {regionData.regionName}
-                          </h3>
-                          <Badge variant="outline" className="border-gray-600 text-gray-400 text-xs">
-                            Lv {regionData.recommendedLevel}
-                          </Badge>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <Badge className="bg-emerald-600 text-emerald-100 text-xs">
-                            {regionData.crafts.length} crafts únicos
-                          </Badge>
-                          {regionData.missingCrafts.length > 0 && (
-                            <TooltipProvider>
-                              <Tooltip>
-                                <TooltipTrigger asChild>
-                                  <Badge
-                                    variant="outline"
-                                    className="border-orange-600 text-orange-400 text-xs cursor-help"
-                                    onClick={(e) => e.stopPropagation()}
-                                  >
-                                    {regionData.missingCrafts.length} faltam
-                                  </Badge>
-                                </TooltipTrigger>
-                                <TooltipContent className="bg-gray-800 border-gray-700 max-w-md max-h-96 overflow-auto">
-                                  <div className="text-xs space-y-1">
-                                    <p className="font-semibold text-gray-200 mb-2">Crafts faltantes:</p>
-                                    <div className="grid grid-cols-1 gap-1">
-                                      {regionData.missingCrafts.map(itemName => (
-                                        <div key={itemName} className="text-gray-300">
-                                          • {itemName}
-                                        </div>
-                                      ))}
-                                    </div>
-                                  </div>
-                                </TooltipContent>
-                              </Tooltip>
-                            </TooltipProvider>
-                          )}
-                        </div>
-                      </div>
-                    </AccordionTrigger>
-                    <AccordionContent className="pb-4">
-                      {regionData.crafts.length > 0 ? (
-                        <div className="grid grid-cols-2 gap-2 mt-2">
-                          {regionData.crafts.map(craft => (
-                            <div
-                              key={craft.materialName}
-                              className="flex items-center justify-between p-2 rounded bg-gray-900 border border-gray-700"
-                            >
-                              <div className="flex items-center gap-2 flex-1 min-w-0">
-                                <Hammer className="size-3 text-emerald-400 flex-shrink-0" />
-                                <div className="flex-1 min-w-0">
-                                  <span className="text-xs text-gray-200 truncate block">
-                                    {craft.finalItemName}
-                                  </span>
-                                  <span className="text-[10px] text-gray-500 truncate block">
-                                    ({craft.monsterName})
-                                  </span>
-                                </div>
-                              </div>
-                              <TooltipProvider>
-                                <Tooltip>
-                                  <TooltipTrigger asChild>
-                                    <Badge variant="outline" className="border-blue-600 text-blue-400 text-xs flex-shrink-0 cursor-help">
-                                      {craft.currentRegionSpawns} / {craft.totalSpawns} spawn{craft.totalSpawns !== 1 ? 's' : ''}
-                                    </Badge>
-                                  </TooltipTrigger>
-                                  <TooltipContent className="bg-gray-800 border-gray-700">
-                                    <div className="text-xs space-y-1">
-                                      {craft.breakdown.map(item => (
-                                        <div key={item.regionName} className="flex justify-between gap-4">
-                                          <span className="text-gray-300">{item.regionName}:</span>
-                                          <span className="text-blue-400 font-medium">{item.spawns} spawn{item.spawns !== 1 ? 's' : ''}</span>
-                                        </div>
-                                      ))}
-                                      {craft.breakdown.length > 1 && (
-                                        <>
-                                          <div className="border-t border-gray-700 my-1"></div>
-                                          <div className="flex justify-between gap-4 font-semibold">
-                                            <span className="text-gray-200">Total:</span>
-                                            <span className="text-blue-400">{craft.totalSpawns} spawn{craft.totalSpawns !== 1 ? 's' : ''}</span>
-                                          </div>
-                                        </>
-                                      )}
-                                    </div>
-                                  </TooltipContent>
-                                </Tooltip>
-                              </TooltipProvider>
-                            </div>
-                          ))}
-                        </div>
-                      ) : (
-                        <p className="text-xs text-gray-500 italic text-center py-2">
-                          Nenhum craft disponível até esta região
-                        </p>
-                      )}
-                    </AccordionContent>
-                  </AccordionItem>
-                ))}
-              </Accordion>
-            </ScrollArea>
           </DialogContent>
         </Dialog>
       </div>
