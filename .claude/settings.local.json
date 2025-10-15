@@ -1,0 +1,29 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir:*)",
+      "Bash(npm install)",
+      "Bash(npm install:*)",
+      "Bash(npm run dev:*)",
+      "Read(//c/gdev-workspace/Forgotten-Dream-Server/data/items/**)",
+      "Read(//c/gdev-workspace/ServerManagerMW/Assets/Scripts/Modules/Monsters/**)",
+      "Read(//c/gdev-workspace/ServerManagerMW/**)",
+      "Bash(powershell:*)",
+      "Bash(node:*)",
+      "Bash(cat:*)",
+      "WebFetch(domain:leagueoflegends.fandom.com)",
+      "WebSearch",
+      "Bash(netstat:*)",
+      "Bash(findstr:*)",
+      "Bash(curl:*)",
+      "Bash(npm run lint:*)",
+      "Bash(npx eslint:*)",
+      "Read(//c/gdev-workspace/Forgotten-Dream-Server/data/monster/_dream/**)",
+      "Bash(del \"C:\\Users\\davif\\WebstormProjects\\MWServerBKO\\src\\components\\MultipleItemInputChip.jsx\")",
+      "Bash(timeout:*)",
+      "Read(//c/gdev-workspace/Forgotten-Dream-Server/data/world/**)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

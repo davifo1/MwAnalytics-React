@@ -1,0 +1,675 @@
+{
+  "general": [
+    {
+      "name": "type",
+      "shortDesc": "Define o comportamento fundamental do item (linha 702-713 em items.cpp)",
+      "desc": ": Define o comportamento fundamental do item (linha 702-713 em items.cpp)\n: Altera `it.type` e em alguns casos `it.group`\n: key, magicfield, container, depot, mailbox, trashholder, teleport, door, bed, rune",
+      "example": "<item id=\"2554\" article=\"a\" name=\"shovel\">\n    <attribute key=\"type\" value=\"container\"/>\n    <attribute key=\"containersize\" value=\"3\"/>\n</item>"
+    },
+    {
+      "name": "categories",
+      "shortDesc": "String armazenada em `it.categories` (linha 878 em items.cpp)",
+      "desc": ": String armazenada em `it.categories` (linha 878 em items.cpp)\n: Categorização para filtros de loja/market e organização",
+      "example": "<!-- Ferramentas -->\n<item id=\"1611\" name=\"rope\">\n    <attribute key=\"categories\" value=\"tool;\"/>\n</item>\n\n<!-- Item de loot valioso para venda -->\n<item id=\"2128\" name=\"crown\">\n    <attribute key=\"categories\" value=\"monsterLoot;moneyLoot;marketMaterials;\"/>\n    <attribute key=\"sellingPrice\" value=\"150000\"/>\n</item>\n\n<!-- Item para builds de marksman -->\n<item id=\"1938\">\n    <attribute key=\"categories\" value=\"marksman\"/>\n</item>"
+    },
+    {
+      "name": "lootFrom",
+      "shortDesc": "String armazenada em `it.lootFrom` (linha 882 em items.cpp)",
+      "desc": ": String armazenada em `it.lootFrom` (linha 882 em items.cpp)\n: Lista de monstros que dropam o item",
+      "example": "<!-- Crown dropada por bosses -->\n<item id=\"2128\" name=\"crown\">\n    <attribute key=\"lootFrom\" value=\"Ashmunrah, Black Knight, Demon, Dipthrah, Goblin King, Morguthis, Omruc, Rahemos, Thalas, Vashresamun, Warlock\"/>\n</item>\n\n<!-- Gold Cup dropada por Hero -->\n<item id=\"2143\" name=\"gold cup\">\n    <attribute key=\"lootFrom\" value=\"Hero\"/>\n</item>\n\n<!-- Tomb Coin dropada por Horrors -->\n<item id=\"2159\" name=\"tomb coin\">\n    <attribute key=\"lootFrom\" value=\"Ancient Horror, Horror\"/>\n</item>"
+    },
+    {
+      "name": "tier",
+      "shortDesc": "Convertido para enum `EquipTierType_t` (linha 886-894 em items.cpp)",
+      "desc": ": Convertido para enum `EquipTierType_t` (linha 886-894 em items.cpp)\n: initial, common, basic, epic, legendary\n: Define raridade e cor do item no cliente\n\n\n\n\n---\n\n## 2. ATRIBUTOS DE DESCRIÇÃO E TEXTO",
+      "example": "<!-- Item básico -->\n<item id=\"2153\" name=\"violet gem\">\n    <attribute key=\"tier\" value=\"basic\"/>\n    <attribute key=\"price\" value=\"500\"/>\n</item>\n\n<!-- Item épico -->\n<item id=\"2123\" name=\"ring of the sky\">\n    <attribute key=\"tier\" value=\"epic\"/>\n    <attribute key=\"price\" value=\"50000\"/>\n</item>\n\n<!-- Item lendário -->\n<item id=\"2128\" name=\"crown\">\n    <attribute key=\"tier\" value=\"legendary\"/>\n    <attribute key=\"sellingPrice\" value=\"150000\"/>\n</item>"
+    },
+    {
+      "name": "descEnUs",
+      "shortDesc": "Strings para localização (linhas 722-724 em items.cpp)",
+      "desc": "/ \n: Strings para localização (linhas 722-724 em items.cpp)\n: Suporte multi-idioma para descrições complexas\n\n\n\n\n---\n\n## 3. ATRIBUTOS BÁSICOS",
+      "example": "<item id=\"2123\" name=\"ring of the sky\">\n    <attribute key=\"descEnUs\" value=\"<color=#40e2ff>Shield (60s)</color><br>Gives a shield of 150 + (10% per Fusion Level) health.\"/>\n    <attribute key=\"descPtBr\" value=\"<color=#40e2ff>Escudo (60s)</color><br>Concede um escudo de 150 + (10% por Fusion Level) de vida.\"/>\n</item>\n\n<item id=\"2140\" name=\"holy scarab\">\n    <attribute key=\"descEnUs\" value=\"<color=#40e2ff>Scarab Power</color><br>Basic attacks deal 15 (+15% AP) additional arcane damage on hit.\"/>\n    <attribute key=\"descPtBr\" value=\"<color=#40e2ff>Scarab Power</color><br>Ataques básicos causam 15 (+ 15% AP) de dano arcano adicional ao contato.\"/>\n</item>"
+    },
+    {
+      "name": "weight",
+      "shortDesc": "`uint32_t` em `it.weight` (linha 732 em items.cpp)",
+      "desc": ": `uint32_t` em `it.weight` (linha 732 em items.cpp)\n: Onças (oz)\n: Afeta capacidade de carga do jogador",
+      "example": "<!-- Moeda leve -->\n<item id=\"2148\" name=\"gold coin\">\n    <attribute key=\"weight\" value=\"1\"/>\n</item>\n\n<!-- Item pesado -->\n<item id=\"2131\" name=\"bless amulet\">\n    <attribute key=\"weight\" value=\"1500\"/>\n</item>\n\n<!-- Item médio -->\n<item id=\"2159\" name=\"tomb coin\">\n    <attribute key=\"weight\" value=\"500\"/>\n</item>"
+    },
+    {
+      "name": "price",
+      "shortDesc": "`int32_t` em `it.price` (linha 753 em items.cpp)",
+      "desc": ": `int32_t` em `it.price` (linha 753 em items.cpp)\n: Preço de compra em NPCs",
+      "example": "<item id=\"2153\" name=\"violet gem\">\n    <attribute key=\"price\" value=\"500\"/>\n</item>\n\n<item id=\"2123\" name=\"ring of the sky\">\n    <attribute key=\"price\" value=\"50000\"/>\n</item>\n\n<item id=\"2131\" name=\"bless amulet\">\n    <attribute key=\"price\" value=\"100000\"/>\n</item>"
+    },
+    {
+      "name": "sellingPrice",
+      "shortDesc": "`int32_t` em `it.sellingPrice` (linha 757 em items.cpp)",
+      "desc": ": `int32_t` em `it.sellingPrice` (linha 757 em items.cpp)\n: Preço de venda para NPCs\n\n\n\n\n---\n\n## 4. ATRIBUTOS DE SLOT E EQUIPAMENTO",
+      "example": "<item id=\"2128\" name=\"crown\">\n    <attribute key=\"sellingPrice\" value=\"150000\"/>\n</item>\n\n<item id=\"2143\" name=\"gold cup\">\n    <attribute key=\"sellingPrice\" value=\"50000\"/>\n</item>\n\n<item id=\"2159\" name=\"tomb coin\">\n    <attribute key=\"sellingPrice\" value=\"500\"/>\n</item>"
+    }
+  ],
+  "equipment": [
+    {
+      "name": "containersize",
+      "shortDesc": "`uint16_t` em `it.maxItems` (linha 983 em items.cpp)",
+      "desc": ": `uint16_t` em `it.maxItems` (linha 983 em items.cpp)\n: Número de slots no container",
+      "example": ""
+    },
+    {
+      "name": "unique",
+      "shortDesc": "Armazenado em `it.uniqueTag` (linha 741 em items.cpp)",
+      "desc": ": Armazenado em `it.uniqueTag` (linha 741 em items.cpp)\n: Sistema verifica quantos itens com mesmo `uniqueTag` estão equipados via `countEquipmentWithUniqueTag()` (linha 613 em player.cpp)\n: Impede stackar efeitos de itens únicos",
+      "example": "<!-- Bless Amulet - apenas 1 pode ser equipado -->\n<item id=\"2131\" name=\"bless amulet\">\n    <attribute key=\"unique\" value=\"Bless\"/>\n</item>\n\n<!-- Spellblade - efeito único não stacka -->\n<item id=\"3704\">\n    <attribute key=\"unique\" value=\"Spellblade\"/>\n</item>\n\n<!-- Lifeline - passive única -->\n<item id=\"4068\">\n    <attribute key=\"unique\" value=\"Lifeline\"/>\n</item>"
+    },
+    {
+      "name": "passive",
+      "shortDesc": "String armazenada em `it.passive` (linha 745 em items.cpp)",
+      "desc": ": String armazenada em `it.passive` (linha 745 em items.cpp)\n: Identificador para passivas especiais processadas por scripts Lua",
+      "example": "<!-- Ring of the Sky com passive \"anull\" -->\n<item id=\"2123\" name=\"ring of the sky\">\n    <attribute key=\"passive\" value=\"anull\"/>\n    <attribute key=\"abilityPower\" value=\"40\"/>\n</item>\n\n<!-- Holy Scarab com passive \"scarab power\" -->\n<item id=\"2140\" name=\"holy scarab\">\n    <attribute key=\"passive\" value=\"scarab power\"/>\n    <attribute key=\"descEnUs\" value=\"Basic attacks deal 15 (+15% AP) additional arcane damage on hit.\"/>\n</item>\n\n<!-- Holy Falcon com passive \"eternity\" -->\n<item id=\"2141\" name=\"holy falcon\">\n    <attribute key=\"passive\" value=\"eternity\"/>\n    <attribute key=\"descEnUs\" value=\"Taking damage restores 7% damage as Mana.\"/>\n</item>"
+    },
+    {
+      "name": "slotType",
+      "shortDesc": "Processado para `it.slotPosition` com bitflags (linhas 1030-1063 em items.cpp)",
+      "desc": ": Processado para `it.slotPosition` com bitflags (linhas 1030-1063 em items.cpp)\n: head, body, equip, legs, feet, boots, backpack, two-handed, right-hand, left-hand, necklace, ring, ammo, hand, dream-amulet\n\n\n\n\n---\n\n## 5. ATRIBUTOS DE COMBATE MOBA",
+      "example": "<!-- Slot especial dream-amulet -->\n<item id=\"2131\" name=\"bless amulet\">\n    <attribute key=\"slotType\" value=\"dream-amulet\"/>\n</item>\n\n<!-- Slot de equipamento genérico -->\n<item id=\"2123\" name=\"ring of the sky\">\n    <attribute key=\"slotType\" value=\"equip\"/>\n</item>\n\n<!-- Slot de anel -->\n<item id=\"2124\" name=\"crystal ring\">\n    <attribute key=\"slotType\" value=\"ring\"/>\n</item>\n\n<!-- Slot de colar -->\n<item id=\"2125\" name=\"crystal necklace\">\n    <attribute key=\"slotType\" value=\"necklace\"/>\n</item>\n\n<!-- Slot de cabeça -->\n<item id=\"2139\" name=\"ancient tiara\">\n    <attribute key=\"slotType\" value=\"head\"/>\n</item>"
+    },
+    {
+      "name": "attackDamage",
+      "shortDesc": "Armazenado em `abilities->extraPlayerAttribute[PLAYERATTR_ATTACK_DAMAGE]` (linha 761 em items.cpp)",
+      "desc": ": Armazenado em `abilities->extraPlayerAttribute[PLAYERATTR_ATTACK_DAMAGE]` (linha 761 em items.cpp)\n: Attack Damage (AD) adicional para sistema MOBA",
+      "example": ""
+    },
+    {
+      "name": "abilityPower",
+      "shortDesc": "Armazenado em `abilities->extraPlayerAttribute[PLAYERATTR_ABILITY_POWER]` (linha 765 em items.cpp)",
+      "desc": ": Armazenado em `abilities->extraPlayerAttribute[PLAYERATTR_ABILITY_POWER]` (linha 765 em items.cpp)\n: Ability Power (AP) para aumentar dano mágico",
+      "example": "<item id=\"2123\" name=\"ring of the sky\">\n    <attribute key=\"abilityPower\" value=\"40\"/>\n    <attribute key=\"magicResist\" value=\"30\"/>\n</item>\n\n<item id=\"2140\" name=\"holy scarab\">\n    <attribute key=\"abilityPower\" value=\"80\"/>\n    <attribute key=\"abilityHaste\" value=\"15\"/>\n    <attribute key=\"attackSpeed\" value=\"50\"/>\n</item>\n\n<item id=\"2141\" name=\"holy falcon\">\n    <attribute key=\"abilityPower\" value=\"80\"/>\n    <attribute key=\"extrahp\" value=\"500\"/>\n    <attribute key=\"extramana\" value=\"600\"/>\n</item>"
+    },
+    {
+      "name": "abilityHaste",
+      "shortDesc": "Armazenado em `abilities->extraPlayerAttribute[PLAYERATTR_ABILITY_HASTE]` (linha 795 em items.cpp)",
+      "desc": ": Armazenado em `abilities->extraPlayerAttribute[PLAYERATTR_ABILITY_HASTE]` (linha 795 em items.cpp)\n: Redução de cooldown de habilidades",
+      "example": "<item id=\"2153\" name=\"violet gem\">\n    <attribute key=\"abilityHaste\" value=\"5\"/>\n</item>\n\n<item id=\"2140\" name=\"holy scarab\">\n    <attribute key=\"abilityHaste\" value=\"15\"/>\n</item>"
+    },
+    {
+      "name": "attackSpeed",
+      "shortDesc": "Armazenado em `abilities->extraPlayerAttribute[PLAYERATTR_ATTACK_SPEED]` (linha 791 em items.cpp)",
+      "desc": ": Armazenado em `abilities->extraPlayerAttribute[PLAYERATTR_ATTACK_SPEED]` (linha 791 em items.cpp)\n: Velocidade de ataque adicional",
+      "example": "<item id=\"2140\" name=\"holy scarab\">\n    <attribute key=\"attackSpeed\" value=\"50\"/>\n    <attribute key=\"passive\" value=\"scarab power\"/>\n</item>"
+    },
+    {
+      "name": "criticalStrikePercent",
+      "shortDesc": "Armazenado em `abilities->extraPlayerAttribute[PLAYERATTR_CRITICAL_STRIKE_PERCENT]` (linha 799 em items.cpp)",
+      "desc": ": Armazenado em `abilities->extraPlayerAttribute[PLAYERATTR_CRITICAL_STRIKE_PERCENT]` (linha 799 em items.cpp)\n: Chance de crítico em porcentagem\n\n---\n\n## 6. ATRIBUTOS DE DEFESA",
+      "example": ""
+    },
+    {
+      "name": "armor",
+      "shortDesc": "Duplo armazenamento - `it.armor` e `abilities->extraPlayerAttribute[PLAYERATTR_ARMOR]` (linhas 777-779 em items.cpp)",
+      "desc": ": Duplo armazenamento - `it.armor` e `abilities->extraPlayerAttribute[PLAYERATTR_ARMOR]` (linhas 777-779 em items.cpp)\n: Redução de dano físico",
+      "example": "<item id=\"2139\" name=\"ancient tiara\">\n    <attribute key=\"armor\" value=\"0\"/>\n    <attribute key=\"slotType\" value=\"head\"/>\n</item>"
+    },
+    {
+      "name": "magicResist",
+      "shortDesc": "Armazenado em `abilities->extraPlayerAttribute[PLAYERATTR_MAGIC_RESIST]` (linha 782 em items.cpp)",
+      "desc": ": Armazenado em `abilities->extraPlayerAttribute[PLAYERATTR_MAGIC_RESIST]` (linha 782 em items.cpp)\n: Redução de dano mágico",
+      "example": "<item id=\"2123\" name=\"ring of the sky\">\n    <attribute key=\"magicResist\" value=\"30\"/>\n    <attribute key=\"abilityPower\" value=\"40\"/>\n</item>"
+    },
+    {
+      "name": "extrahp",
+      "shortDesc": "Armazenado em `abilities->stats[STAT_MAXHITPOINTS]` (linha 897 em items.cpp)",
+      "desc": ": Armazenado em `abilities->stats[STAT_MAXHITPOINTS]` (linha 897 em items.cpp)\n: Pontos de vida adicionais",
+      "example": "<item id=\"2156\" name=\"red gem\">\n    <attribute key=\"extrahp\" value=\"150\"/>\n</item>\n\n<item id=\"2141\" name=\"holy falcon\">\n    <attribute key=\"extrahp\" value=\"500\"/>\n    <attribute key=\"extramana\" value=\"600\"/>\n</item>"
+    },
+    {
+      "name": "extramana",
+      "shortDesc": "Armazenado em `abilities->stats[STAT_MAXMANAPOINTS]` (linha 917 em items.cpp)",
+      "desc": ": Armazenado em `abilities->stats[STAT_MAXMANAPOINTS]` (linha 917 em items.cpp)\n: Pontos de mana adicionais",
+      "example": "<item id=\"2158\" name=\"blue gem\">\n    <attribute key=\"extramana\" value=\"250\"/>\n</item>\n\n<item id=\"2141\" name=\"holy falcon\">\n    <attribute key=\"extramana\" value=\"600\"/>\n    <attribute key=\"regenMpPercent\" value=\"150\"/>\n</item>"
+    },
+    {
+      "name": "regenHpPercent",
+      "shortDesc": "Armazenado em `abilities->extraPlayerAttribute[PLAYERATTR_REGEN_HP]` (linha 812 em items.cpp)",
+      "desc": ": Armazenado em `abilities->extraPlayerAttribute[PLAYERATTR_REGEN_HP]` (linha 812 em items.cpp)\n: Regeneração de HP baseada em porcentagem\n: O nome do atributo no XML não tem \"Percent\" mas o enum tem",
+      "example": ""
+    },
+    {
+      "name": "regenMpPercent",
+      "shortDesc": "Armazenado em `abilities->extraPlayerAttribute[PLAYERATTR_REGEN_MP]` (linha 819 em items.cpp)",
+      "desc": ": Armazenado em `abilities->extraPlayerAttribute[PLAYERATTR_REGEN_MP]` (linha 819 em items.cpp)\n: Regeneração de MP baseada em porcentagem",
+      "example": "<item id=\"2141\" name=\"holy falcon\">\n    <attribute key=\"regenMpPercent\" value=\"150\"/>\n    <attribute key=\"passive\" value=\"eternity\"/>\n</item>"
+    },
+    {
+      "name": "regenHpOutOfCombat",
+      "shortDesc": "Armazenado em `abilities->extraPlayerAttribute[PLAYERATTR_REGEN_HP_OUTOFCOMBAT]` (linha 769 em items.cpp)",
+      "desc": ": Armazenado em `abilities->extraPlayerAttribute[PLAYERATTR_REGEN_HP_OUTOFCOMBAT]` (linha 769 em items.cpp)\n: Regeneração extra fora de combate",
+      "example": ""
+    },
+    {
+      "name": "regenMpOutOfCombat",
+      "shortDesc": "Armazenado em `abilities->extraPlayerAttribute[PLAYERATTR_REGEN_MP_OUTOFCOMBAT]` (linha 773 em items.cpp)",
+      "desc": ": Armazenado em `abilities->extraPlayerAttribute[PLAYERATTR_REGEN_MP_OUTOFCOMBAT]` (linha 773 em items.cpp)\n: Regeneração de mana fora de combate",
+      "example": ""
+    },
+    {
+      "name": "unitaryArmorPen",
+      "shortDesc": "Armazenado em `abilities->extraPlayerAttribute[PLAYERATTR_UNITARY_ARMOR_PEN]` (linha 843 em items.cpp)",
+      "desc": ": Armazenado em `abilities->extraPlayerAttribute[PLAYERATTR_UNITARY_ARMOR_PEN]` (linha 843 em items.cpp)\n: Penetração de armadura fixa (Lethality)",
+      "example": ""
+    },
+    {
+      "name": "armorPenPercent",
+      "shortDesc": "Armazenado em `abilities->extraPlayerAttribute[PLAYERATTR_ARMOR_PEN_PERCENT]` (linha 847 em items.cpp)",
+      "desc": ": Armazenado em `abilities->extraPlayerAttribute[PLAYERATTR_ARMOR_PEN_PERCENT]` (linha 847 em items.cpp)\n: Penetração de armadura percentual",
+      "example": ""
+    },
+    {
+      "name": "unitaryMagicPen",
+      "shortDesc": "Armazenado em `abilities->extraPlayerAttribute[PLAYERATTR_UNITARY_MAGIC_PEN]` (linha 851 em items.cpp)",
+      "desc": ": Armazenado em `abilities->extraPlayerAttribute[PLAYERATTR_UNITARY_MAGIC_PEN]` (linha 851 em items.cpp)\n: Penetração mágica fixa",
+      "example": ""
+    },
+    {
+      "name": "magicPenPercent",
+      "shortDesc": "Armazenado em `abilities->extraPlayerAttribute[PLAYERATTR_MAGIC_PEN_PERCENT]` (linha 855 em items.cpp)",
+      "desc": ": Armazenado em `abilities->extraPlayerAttribute[PLAYERATTR_MAGIC_PEN_PERCENT]` (linha 855 em items.cpp)\n: Penetração mágica percentual\n\n---\n\n## 10. ATRIBUTOS DE ROUBO DE VIDA",
+      "example": ""
+    },
+    {
+      "name": "lifeStealPercent",
+      "shortDesc": "Armazenado em `abilities->extraPlayerAttribute[PLAYERATTR_LIFE_STEAL_PERCENT]` (linha 859 em items.cpp)",
+      "desc": ": Armazenado em `abilities->extraPlayerAttribute[PLAYERATTR_LIFE_STEAL_PERCENT]` (linha 859 em items.cpp)\n: Roubo de vida em ataques físicos",
+      "example": ""
+    },
+    {
+      "name": "omnivampPercent",
+      "shortDesc": "Armazenado em `abilities->extraPlayerAttribute[PLAYERATTR_OMNIVAMP_PERCENT]` (linha 863 em items.cpp)",
+      "desc": ": Armazenado em `abilities->extraPlayerAttribute[PLAYERATTR_OMNIVAMP_PERCENT]` (linha 863 em items.cpp)\n: Roubo de vida de todo tipo de dano",
+      "example": ""
+    },
+    {
+      "name": "healAndShieldPercent",
+      "shortDesc": "Armazenado em `abilities->extraPlayerAttribute[PLAYERATTR_HEAL_AND_SHIELD_PERCENT]` (linha 823 em items.cpp)",
+      "desc": ": Armazenado em `abilities->extraPlayerAttribute[PLAYERATTR_HEAL_AND_SHIELD_PERCENT]` (linha 823 em items.cpp)\n: Aumenta poder de curas e escudos aplicados",
+      "example": ""
+    },
+    {
+      "name": "healAndShieldReceivedPercent",
+      "shortDesc": "Armazenado em `abilities->extraPlayerAttribute[PLAYERATTR_HEAL_SHIELD_RECEIVED_PERCENT]` (linha 839 em items.cpp)",
+      "desc": ": Armazenado em `abilities->extraPlayerAttribute[PLAYERATTR_HEAL_SHIELD_RECEIVED_PERCENT]` (linha 839 em items.cpp)\n: Aumenta curas e escudos recebidos\n\n---\n\n## 12. ATRIBUTOS DE CONVERSÃO ESPECIAIS",
+      "example": ""
+    },
+    {
+      "name": "manaPercentToAp",
+      "shortDesc": "`int32_t` em `it.manaPercentToAp` (linha 905 em items.cpp)",
+      "desc": ": `int32_t` em `it.manaPercentToAp` (linha 905 em items.cpp)\n: Converte % da mana máxima em AP\n: Processado em movement.cpp durante equip/deequip",
+      "example": ""
+    },
+    {
+      "name": "moveSpeedPercentToAdOrAp",
+      "shortDesc": "`int32_t` em `it.moveSpeedPercentToAdOrAp` (linha 909 em items.cpp)",
+      "desc": ": `int32_t` em `it.moveSpeedPercentToAdOrAp` (linha 909 em items.cpp)\n: Converte % da velocidade em AD ou AP",
+      "example": ""
+    },
+    {
+      "name": "extraMaxAttackSpeedToAd",
+      "shortDesc": "Booleano em `it.extraMaxAttackSpeedToAd` (linha 913 em items.cpp)",
+      "desc": ": Booleano em `it.extraMaxAttackSpeedToAd` (linha 913 em items.cpp)\n: Converte excesso de attack speed (acima do cap) em AD",
+      "example": ""
+    },
+    {
+      "name": "tenacityPercent",
+      "shortDesc": "Armazenado em `abilities->extraPlayerAttribute[PLAYERATTR_TENACITY_PERCENT]` (linha 871 em items.cpp)",
+      "desc": ": Armazenado em `abilities->extraPlayerAttribute[PLAYERATTR_TENACITY_PERCENT]` (linha 871 em items.cpp)\n: Reduz duração de stuns e controles",
+      "example": ""
+    },
+    {
+      "name": "slowResistPercent",
+      "shortDesc": "Armazenado em `abilities->extraPlayerAttribute[PLAYERATTR_SLOW_RESIST_PERCENT]` (linha 874 em items.cpp)",
+      "desc": ": Armazenado em `abilities->extraPlayerAttribute[PLAYERATTR_SLOW_RESIST_PERCENT]` (linha 874 em items.cpp)\n: Resistência específica a slows\n\n---\n\n## 14. ATRIBUTOS DE CRÍTICO",
+      "example": ""
+    },
+    {
+      "name": "criticalExtraDamageParcent",
+      "shortDesc": "Armazenado em `abilities->extraPlayerAttribute[PLAYERATTR_CRITICAL_EXTRA_DAMAGE_PERCENT]` (linha 831 em items.cpp)",
+      "desc": "(typo intencional no código)\n: Armazenado em `abilities->extraPlayerAttribute[PLAYERATTR_CRITICAL_EXTRA_DAMAGE_PERCENT]` (linha 831 em items.cpp)\n: Dano crítico adicional",
+      "example": ""
+    },
+    {
+      "name": "criticalReduceDamagePercent",
+      "shortDesc": "Armazenado em `abilities->extraPlayerAttribute[PLAYERATTR_CRITICAL_REDUCE_DAMAGE_PERCENT]` (linha 835 em items.cpp)",
+      "desc": ": Armazenado em `abilities->extraPlayerAttribute[PLAYERATTR_CRITICAL_REDUCE_DAMAGE_PERCENT]` (linha 835 em items.cpp)\n: Reduz dano de críticos recebidos",
+      "example": ""
+    },
+    {
+      "name": "moveSpeed",
+      "shortDesc": "Ambos processados igualmente (linhas 802-806 em items.cpp)",
+      "desc": "/ \n: Ambos processados igualmente (linhas 802-806 em items.cpp)\n: `abilities.speed` e `abilities->extraPlayerAttribute[PLAYERATTR_MOVE_SPEED]`\n: Velocidade de movimento adicional",
+      "example": ""
+    },
+    {
+      "name": "criticalhitchance",
+      "shortDesc": "Linhas 1215-1217 e 1210-1212 em items.cpp",
+      "desc": "/  (LEGADO)\n: Linhas 1215-1217 e 1210-1212 em items.cpp\n: Sistema antigo de crítico, armazenado em specialSkills\n\n---\n\n## 15. ATRIBUTOS DE MOVIMENTO E VELOCIDADE",
+      "example": ""
+    }
+  ],
+  "legacy": [
+    {
+      "name": "range",
+      "shortDesc": "`uint16_t` em `it.shootRange` (linha 1095 em items.cpp)",
+      "desc": ": `uint16_t` em `it.shootRange` (linha 1095 em items.cpp)",
+      "example": ""
+    },
+    {
+      "name": "description",
+      "shortDesc": "String em `it.description` (linha 717 em items.cpp)",
+      "desc": ": String em `it.description` (linha 717 em items.cpp)\n: Texto exibido ao examinar o item",
+      "example": "<item id=\"2130\" name=\"golden amulet\">\n    <attribute key=\"description\" value=\"Many gems glitter on the amulet.\"/>\n</item>\n\n<item id=\"2145\" name=\"magic gem\">\n    <attribute key=\"description\" value=\"Magic Gems are needed to shop exclusive products in the Store, including fabulous mounts, classes or even Premium Time.\"/>\n</item>"
+    },
+    {
+      "name": "defense",
+      "shortDesc": "`int32_t` em `it.defense` (linha 921 em items.cpp)",
+      "desc": ": `int32_t` em `it.defense` (linha 921 em items.cpp)\n: Valor de defesa base (escudos e armas)",
+      "example": ""
+    },
+    {
+      "name": "extradef",
+      "shortDesc": "`int32_t` em `it.extraDefense` (linha 926 em items.cpp)",
+      "desc": ": `int32_t` em `it.extraDefense` (linha 926 em items.cpp)\n: Defesa adicional",
+      "example": ""
+    },
+    {
+      "name": "attack",
+      "shortDesc": "`int32_t` em `it.attack` (linha 931 em items.cpp)",
+      "desc": ": `int32_t` em `it.attack` (linha 931 em items.cpp)\n: Valor de ataque base para armas\n\n---\n\n## 7. ATRIBUTOS DE VIDA E MANA",
+      "example": ""
+    },
+    {
+      "name": "lifeleechchance",
+      "shortDesc": "Linhas 1235-1237 e 1230-1232 em items.cpp",
+      "desc": "/  (LEGADO)\n: Linhas 1235-1237 e 1230-1232 em items.cpp\n: Sistema antigo de life leech",
+      "example": ""
+    },
+    {
+      "name": "manaleechchance",
+      "shortDesc": "Linhas 1225-1227 e 1220-1222 em items.cpp",
+      "desc": "/  (LEGADO)\n: Linhas 1225-1227 e 1220-1222 em items.cpp\n: Sistema antigo de mana leech\n\n---\n\n## 11. ATRIBUTOS DE CURA E ESCUDO",
+      "example": ""
+    },
+    {
+      "name": "weapontype",
+      "shortDesc": "Converte string para enum `WeaponType_t` (linhas 1019-1027 em items.cpp)",
+      "desc": ": Converte string para enum `WeaponType_t` (linhas 1019-1027 em items.cpp)\n: sword, club, axe, shield, distance, wand, ammunition",
+      "example": ""
+    },
+    {
+      "name": "ammotype",
+      "shortDesc": "Usa `getAmmoType()` para converter (linha 1067 em items.cpp)",
+      "desc": ": Usa `getAmmoType()` para converter (linha 1067 em items.cpp)",
+      "example": ""
+    },
+    {
+      "name": "hitchance",
+      "shortDesc": "`int8_t` limitado entre -100 e 100 (linha 1145 em items.cpp)",
+      "desc": ": `int8_t` limitado entre -100 e 100 (linha 1145 em items.cpp)",
+      "example": ""
+    },
+    {
+      "name": "maxhitchance",
+      "shortDesc": "`uint32_t` limitado a 100 (linha 1150 em items.cpp)",
+      "desc": ": `uint32_t` limitado a 100 (linha 1150 em items.cpp)\n\n---\n\n## 21. ATRIBUTOS DE TRANSFORMAÇÃO",
+      "example": ""
+    },
+    {
+      "name": "elementice",
+      "shortDesc": "Define `abilities.elementDamage` e `abilities.elementType` (linhas 1579-1612 em items.cpp)",
+      "desc": "/  /  /  /  / \n: Define `abilities.elementDamage` e `abilities.elementType` (linhas 1579-1612 em items.cpp)\n: Adiciona dano elemental aos ataques\n\n---\n\n## 27. ATRIBUTOS DE HABILIDADES (LEGADO)",
+      "example": ""
+    },
+    {
+      "name": "skillsword",
+      "shortDesc": "Armazenados em `abilities.skills[]` (linhas 1175-1207 em items.cpp)",
+      "desc": "/  /  /  /  /  / \n: Armazenados em `abilities.skills[]` (linhas 1175-1207 em items.cpp)\n: SKILL_SWORD, SKILL_AXE, SKILL_CLUB, SKILL_DISTANCE, SKILL_FISHING, SKILL_DEFENSE, SKILL_MEELE",
+      "example": ""
+    },
+    {
+      "name": "magicpoints",
+      "shortDesc": "Ambos armazenam em `abilities.stats[STAT_MAGICPOINTS]` (linhas 1260-1262 em items.cpp)",
+      "desc": "/ \n: Ambos armazenam em `abilities.stats[STAT_MAGICPOINTS]` (linhas 1260-1262 em items.cpp)",
+      "example": ""
+    },
+    {
+      "name": "magicpointspercent",
+      "shortDesc": "`abilities.statsPercent[STAT_MAGICPOINTS]` (linha 1266 em items.cpp)",
+      "desc": ": `abilities.statsPercent[STAT_MAGICPOINTS]` (linha 1266 em items.cpp)\n\n---\n\n## 28. ATRIBUTOS ESPECIAIS",
+      "example": ""
+    }
+  ],
+  "absorption": [
+    {
+      "name": "absorbpercentphysical",
+      "shortDesc": "Absorção específica de dano físico (linha 1359 em items.cpp)",
+      "desc": ": Absorção específica de dano físico (linha 1359 em items.cpp)",
+      "example": ""
+    },
+    {
+      "name": "absorbpercentfire",
+      "shortDesc": "Absorções específicas por elemento (linhas 1313-1370 em items.cpp)",
+      "desc": "/  /  / etc.\n: Absorções específicas por elemento (linhas 1313-1370 em items.cpp)\n: Redução de dano por tipo específico",
+      "example": ""
+    },
+    {
+      "name": "absorbpercentall",
+      "shortDesc": "Adiciona valor a TODOS os tipos em `abilities.absorbPercent[]` (linhas 1285-1290 em items.cpp)",
+      "desc": ": Adiciona valor a TODOS os tipos em `abilities.absorbPercent[]` (linhas 1285-1290 em items.cpp)\n: Absorção universal de dano",
+      "example": ""
+    },
+    {
+      "name": "absorbpercentelements",
+      "shortDesc": "Adiciona a energy, fire, earth, ice (linhas 1293-1299 em items.cpp)",
+      "desc": ": Adiciona a energy, fire, earth, ice (linhas 1293-1299 em items.cpp)\n: Absorção de danos elementais",
+      "example": ""
+    },
+    {
+      "name": "absorbpercentmagic",
+      "shortDesc": "Adiciona a energy, fire, earth, ice, holy, death (linhas 1302-1310 em items.cpp)",
+      "desc": ": Adiciona a energy, fire, earth, ice, holy, death (linhas 1302-1310 em items.cpp)\n: Absorção de todos os danos mágicos",
+      "example": ""
+    },
+    {
+      "name": "fieldabsorbpercentenergy",
+      "shortDesc": "Absorção específica para campos mágicos (linhas 1270-1282 em items.cpp)",
+      "desc": "/  / \n: Absorção específica para campos mágicos (linhas 1270-1282 em items.cpp)\n: Proteção contra campos no chão\n\n---\n\n## 17. ATRIBUTOS DE RESISTÊNCIA A CONDIÇÕES",
+      "example": ""
+    },
+    {
+      "name": "suppressdrunk",
+      "shortDesc": "Define bits em `abilities.conditionSuppressions` (linhas 1373-1433 em items.cpp)",
+      "desc": "/  /  / etc.\n: Define bits em `abilities.conditionSuppressions` (linhas 1373-1433 em items.cpp)\n: Imunidade a condições específicas\n: drunk, energy, fire, poison, drown, physical (bleeding), freeze, dazzle, curse\n\n---\n\n## 18. ATRIBUTOS DE CONTAINER",
+      "example": ""
+    }
+  ],
+  "basic": [
+    {
+      "name": "showcount",
+      "shortDesc": "Booleano em `it.showCount` (linha 737 em items.cpp)",
+      "desc": ": Booleano em `it.showCount` (linha 737 em items.cpp)\n: Define se mostra quantidade quando stackável",
+      "example": ""
+    }
+  ],
+  "healthMana": [
+    {
+      "name": "maxhitpoints",
+      "shortDesc": "Linhas 1240-1247 em items.cpp",
+      "desc": "/ \n: Linhas 1240-1247 em items.cpp\n: Versões alternativas para HP (legado)",
+      "example": ""
+    },
+    {
+      "name": "maxmanapoints",
+      "shortDesc": "Linhas 1250-1257 em items.cpp",
+      "desc": "/ \n: Linhas 1250-1257 em items.cpp\n: Versões alternativas para mana (legado)\n\n---\n\n## 8. ATRIBUTOS DE REGENERAÇÃO",
+      "example": ""
+    }
+  ],
+  "regeneration": [
+    {
+      "name": "healthgain",
+      "shortDesc": "Linhas 809-811 e 1159-1161 em items.cpp",
+      "desc": "/  (LEGADO)\n: Linhas 809-811 e 1159-1161 em items.cpp\n: Sistema antigo de regeneração, mantido para compatibilidade",
+      "example": ""
+    },
+    {
+      "name": "managain",
+      "shortDesc": "Linhas 816-818 e 1164-1167 em items.cpp",
+      "desc": "/  (LEGADO)\n: Linhas 816-818 e 1164-1167 em items.cpp\n: Sistema antigo de regeneração de mana\n\n---\n\n## 9. ATRIBUTOS DE PENETRAÇÃO",
+      "example": ""
+    }
+  ],
+  "specialConversion": [
+    {
+      "name": "extracap",
+      "shortDesc": "`int32_t` em `it.extraCap` (linha 901 em items.cpp)",
+      "desc": ": `int32_t` em `it.extraCap` (linha 901 em items.cpp)\n: Capacidade de carga adicional\n: Não encontrado uso direto em player.cpp, possivelmente implementado em Lua\n\n---\n\n## 13. ATRIBUTOS DE CONTROLE",
+      "example": ""
+    }
+  ],
+  "movementSpeed": [
+    {
+      "name": "attackRange",
+      "shortDesc": "Armazenado em `abilities->extraPlayerAttribute[PLAYERATTR_ATTACK_RANGE]` (linha 867 em items.cpp)",
+      "desc": ": Armazenado em `abilities->extraPlayerAttribute[PLAYERATTR_ATTACK_RANGE]` (linha 867 em items.cpp)\n: Alcance de ataque adicional\n\n---\n\n## 16. ATRIBUTOS DE ABSORÇÃO",
+      "example": ""
+    }
+  ],
+  "textWriting": [
+    {
+      "name": "readable",
+      "shortDesc": "Booleano em `it.canReadText` (linha 999 em items.cpp)",
+      "desc": ": Booleano em `it.canReadText` (linha 999 em items.cpp)",
+      "example": ""
+    },
+    {
+      "name": "writeable",
+      "shortDesc": "Define `it.canWriteText` e também `it.canReadText` (linhas 1004-1005 em items.cpp)",
+      "desc": ": Define `it.canWriteText` e também `it.canReadText` (linhas 1004-1005 em items.cpp)",
+      "example": ""
+    },
+    {
+      "name": "maxtextlen",
+      "shortDesc": "`uint16_t` em `it.maxTextLen` (linha 1010 em items.cpp)",
+      "desc": ": `uint16_t` em `it.maxTextLen` (linha 1010 em items.cpp)",
+      "example": ""
+    },
+    {
+      "name": "writeonceitemid",
+      "shortDesc": "`uint16_t` em `it.writeOnceItemId` (linha 1015 em items.cpp)",
+      "desc": ": `uint16_t` em `it.writeOnceItemId` (linha 1015 em items.cpp)",
+      "example": ""
+    },
+    {
+      "name": "allowdistread",
+      "shortDesc": "Processa string com `booleanString()` para `it.allowDistRead` (linha 1626 em items.cpp)",
+      "desc": ": Processa string com `booleanString()` para `it.allowDistRead` (linha 1626 em items.cpp)\n\n---\n\n## 20. ATRIBUTOS DE ARMA",
+      "example": ""
+    }
+  ],
+  "transformation": [
+    {
+      "name": "transformequipto",
+      "shortDesc": "`uint16_t` em `it.transformEquipTo` (linha 1110 em items.cpp)",
+      "desc": ": `uint16_t` em `it.transformEquipTo` (linha 1110 em items.cpp)\n: ID do item ao equipar",
+      "example": ""
+    },
+    {
+      "name": "transformdeequipto",
+      "shortDesc": "`uint16_t` em `it.transformDeEquipTo` (linha 1115 em items.cpp)",
+      "desc": ": `uint16_t` em `it.transformDeEquipTo` (linha 1115 em items.cpp)\n: ID do item ao desequipar",
+      "example": ""
+    },
+    {
+      "name": "transformto",
+      "shortDesc": "`uint16_t` em `it.transformToFree` (linha 1570 em items.cpp)",
+      "desc": ": `uint16_t` em `it.transformToFree` (linha 1570 em items.cpp)",
+      "example": ""
+    },
+    {
+      "name": "destroyto",
+      "shortDesc": "`uint16_t` em `it.destroyTo` (linha 1575 em items.cpp)",
+      "desc": ": `uint16_t` em `it.destroyTo` (linha 1575 em items.cpp)",
+      "example": ""
+    },
+    {
+      "name": "decayto",
+      "shortDesc": "`int32_t` em `it.decayTo` (linha 1105 em items.cpp)",
+      "desc": ": `int32_t` em `it.decayTo` (linha 1105 em items.cpp)",
+      "example": ""
+    },
+    {
+      "name": "maletransformto",
+      "shortDesc": "Arrays `it.transformToOnUse[PLAYERSEX_MALE/FEMALE]` (linhas 1540-1566 em items.cpp)",
+      "desc": "/ \n: Arrays `it.transformToOnUse[PLAYERSEX_MALE/FEMALE]` (linhas 1540-1566 em items.cpp)\n: Transformação baseada no sexo do personagem (camas)\n\n---\n\n## 22. ATRIBUTOS DE TEMPO",
+      "example": ""
+    }
+  ],
+  "time": [
+    {
+      "name": "duration",
+      "shortDesc": "`uint32_t` em `it.decayTime` (linha 1120 em items.cpp)",
+      "desc": ": `uint32_t` em `it.decayTime` (linha 1120 em items.cpp)\n: Tempo em milissegundos até decair",
+      "example": ""
+    },
+    {
+      "name": "showduration",
+      "shortDesc": "Booleano em `it.showDuration` (linha 1125 em items.cpp)",
+      "desc": ": Booleano em `it.showDuration` (linha 1125 em items.cpp)",
+      "example": ""
+    },
+    {
+      "name": "stopduration",
+      "shortDesc": "Booleano em `it.stopTime` (linha 1100 em items.cpp)",
+      "desc": ": Booleano em `it.stopTime` (linha 1100 em items.cpp)",
+      "example": ""
+    },
+    {
+      "name": "charges",
+      "shortDesc": "`uint32_t` em `it.charges` (linha 1130 em items.cpp)",
+      "desc": ": `uint32_t` em `it.charges` (linha 1130 em items.cpp)",
+      "example": ""
+    },
+    {
+      "name": "showcharges",
+      "shortDesc": "Booleano em `it.showCharges` (linha 1135 em items.cpp)",
+      "desc": ": Booleano em `it.showCharges` (linha 1135 em items.cpp)",
+      "example": ""
+    },
+    {
+      "name": "showattributes",
+      "shortDesc": "Booleano em `it.showAttributes` (linha 1140 em items.cpp)",
+      "desc": ": Booleano em `it.showAttributes` (linha 1140 em items.cpp)\n\n---\n\n## 23. ATRIBUTOS DE CAMPO MÁGICO",
+      "example": ""
+    }
+  ],
+  "magicField": [
+    {
+      "name": "field",
+      "shortDesc": "Complexo, processa sub-atributos (linhas 1436-1522 em items.cpp)",
+      "desc": ": Complexo, processa sub-atributos (linhas 1436-1522 em items.cpp)\n: fire, energy, poison, drown, physical, arcane\n: damage, ticks, count, initdamage, start\n\n\n- Define `it.group = ITEM_GROUP_MAGICFIELD`\n- Define `it.type = ITEM_TYPE_MAGICFIELD`\n- Cria `ConditionDamage` baseado no tipo\n- Configura dano periódico com ticks e count\n\n---\n\n## 24. ATRIBUTOS DE MOVIMENTO E BLOQUEIO",
+      "example": ""
+    }
+  ],
+  "movementBlocking": [
+    {
+      "name": "moveable",
+      "shortDesc": "Ambos definem `it.moveable` (linha 941 em items.cpp)",
+      "desc": "/ \n: Ambos definem `it.moveable` (linha 941 em items.cpp)",
+      "example": ""
+    },
+    {
+      "name": "blockprojectile",
+      "shortDesc": "Booleano em `it.blockProjectile` (linha 946 em items.cpp)",
+      "desc": ": Booleano em `it.blockProjectile` (linha 946 em items.cpp)",
+      "example": ""
+    },
+    {
+      "name": "allowpickupable",
+      "shortDesc": "Ambos definem `it.allowPickupable` (linha 951 em items.cpp)",
+      "desc": "/ \n: Ambos definem `it.allowPickupable` (linha 951 em items.cpp)",
+      "example": ""
+    },
+    {
+      "name": "forceserialize",
+      "shortDesc": "Ambos definem `it.forceSerialize` (linha 956 em items.cpp)",
+      "desc": "/ \n: Ambos definem `it.forceSerialize` (linha 956 em items.cpp)",
+      "example": ""
+    },
+    {
+      "name": "walkstack",
+      "shortDesc": "Booleano em `it.walkStack` (linha 1616 em items.cpp)",
+      "desc": ": Booleano em `it.walkStack` (linha 1616 em items.cpp)",
+      "example": ""
+    },
+    {
+      "name": "blocking",
+      "shortDesc": "Booleano em `it.blockSolid` (linha 1621 em items.cpp)",
+      "desc": ": Booleano em `it.blockSolid` (linha 1621 em items.cpp)",
+      "example": ""
+    },
+    {
+      "name": "jump-teleport-block",
+      "shortDesc": "Booleano em `it.jumpTeleportBlock` (linha 749 em items.cpp)",
+      "desc": ": Booleano em `it.jumpTeleportBlock` (linha 749 em items.cpp)\n\n---\n\n## 25. ATRIBUTOS DE LOCALIZAÇÃO",
+      "example": ""
+    }
+  ],
+  "location": [
+    {
+      "name": "floorchange",
+      "shortDesc": "Adiciona flags a `it.floorChange` (linhas 960-968 em items.cpp)",
+      "desc": ": Adiciona flags a `it.floorChange` (linhas 960-968 em items.cpp)\n: down, north, south, southalt, west, east, eastalt",
+      "example": ""
+    },
+    {
+      "name": "corpsetype",
+      "shortDesc": "Converte para enum `RaceType_t` (linhas 971-979 em items.cpp)",
+      "desc": ": Converte para enum `RaceType_t` (linhas 971-979 em items.cpp)\n: venom (poison/bug), blood (normal), undead (dark/death), fire, energy (electric)",
+      "example": ""
+    },
+    {
+      "name": "rotateto",
+      "shortDesc": "`int32_t` em `it.rotateTo` (linha 936 em items.cpp)",
+      "desc": ": `int32_t` em `it.rotateTo` (linha 936 em items.cpp)",
+      "example": ""
+    },
+    {
+      "name": "partnerdirection",
+      "shortDesc": "Usa `getDirection()` para `it.bedPartnerDir` (linha 1531 em items.cpp)",
+      "desc": ": Usa `getDirection()` para `it.bedPartnerDir` (linha 1531 em items.cpp)",
+      "example": ""
+    },
+    {
+      "name": "leveldoor",
+      "shortDesc": "`uint32_t` em `it.levelDoor` (linha 1536 em items.cpp)",
+      "desc": ": `uint32_t` em `it.levelDoor` (linha 1536 em items.cpp)",
+      "example": ""
+    },
+    {
+      "name": "replaceable",
+      "shortDesc": "Booleano em `it.replaceable` (linha 1526 em items.cpp)",
+      "desc": ": Booleano em `it.replaceable` (linha 1526 em items.cpp)\n\n---\n\n## 26. ATRIBUTOS DE DANO ELEMENTAL",
+      "example": ""
+    }
+  ],
+  "special": [
+    {
+      "name": "invisible",
+      "shortDesc": "Booleano em `abilities.invisible` (linha 1155 em items.cpp)",
+      "desc": ": Booleano em `abilities.invisible` (linha 1155 em items.cpp)",
+      "example": ""
+    },
+    {
+      "name": "manashield",
+      "shortDesc": "Booleano em `abilities.manaShield` (linha 1171 em items.cpp)",
+      "desc": ": Booleano em `abilities.manaShield` (linha 1171 em items.cpp)",
+      "example": ""
+    },
+    {
+      "name": "storeitem",
+      "shortDesc": "Processa com `booleanString()` para `it.storeItem` (linha 1631 em items.cpp)",
+      "desc": ": Processa com `booleanString()` para `it.storeItem` (linha 1631 em items.cpp)",
+      "example": ""
+    },
+    {
+      "name": "runespellname",
+      "shortDesc": "String em `it.runeSpellName` (linha 727 em items.cpp)",
+      "desc": ": String em `it.runeSpellName` (linha 727 em items.cpp)",
+      "example": ""
+    },  {
+      "name": "fluidsource",
+      "shortDesc": "Converte string para enum `FluidTypes_t` (linhas 988-995 em items.cpp)",
+      "desc": ": Converte string para enum `FluidTypes_t` (linhas 988-995 em items.cpp)\n: water, blood, beer, slime, lemonade, milk, mana, life, oil, urine, coconut, wine, mud, fruitjuice, lava, rum, swamp, tea, mead\n\n---\n\n## 19. ATRIBUTOS DE TEXTO E ESCRITA",
+      "example": ""
+    }
+  ]
+}

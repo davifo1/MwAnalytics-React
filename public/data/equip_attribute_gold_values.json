@@ -1,0 +1,95 @@
+{
+  "attributeGoldValues": {
+    "attackDamage": {
+      "displayName": "Dano de Ataque (AD)",
+      "goldValuePerPoint": 35,
+      "description": "Aumenta o dano de ataques físicos"
+    },
+    "abilityPower": {
+      "displayName": "Poder de Habilidade (AP)",
+      "goldValuePerPoint": 20,
+      "description": "Aumenta o dano de habilidades mágicas"
+    },
+    "attackSpeed": {
+      "displayName": "Velocidade de Ataque (%)",
+      "goldValuePerPoint": 25,
+      "description": "Aumenta a velocidade de ataques básicos"
+    },
+    "abilityHaste": {
+      "displayName": "Aceleração de Habilidade (Ability Haste)",
+      "goldValuePerPoint": 50,
+      "description": "Reduz o tempo de recarga de habilidades"
+    },
+    "criticalStrikePercent": {
+      "displayName": "Chance de Crítico (%)",
+      "goldValuePerPoint": 40,
+      "description": "Chance de causar dano crítico em ataques"
+    },
+    "armor": {
+      "displayName": "Armadura",
+      "goldValuePerPoint": 20,
+      "description": "Reduz dano físico recebido"
+    },
+    "magicResist": {
+      "displayName": "Resistência Mágica (MR)",
+      "goldValuePerPoint": 20,
+      "description": "Reduz dano mágico recebido"
+    },
+    "extrahp": {
+      "displayName": "Vida (HP)",
+      "goldValuePerPoint": 2.67,
+      "description": "Aumenta os pontos de vida máximos"
+    },
+    "extramana": {
+      "displayName": "Mana",
+      "goldValuePerPoint": 1,
+      "description": "Aumenta os pontos de mana máximos"
+    },
+    "regenHpPercent": {
+      "displayName": "Regeneração de Vida (HP/5s)",
+      "goldValuePerPoint": 3,
+      "description": "Regenera vida por segundo"
+    },
+    "regenMpPercent": {
+      "displayName": "Regeneração de Mana (MP/5s)",
+      "goldValuePerPoint": 4,
+      "description": "Regenera mana por segundo"
+    },
+    "unitaryArmorPen": {
+      "displayName": "Letalidade",
+      "goldValuePerPoint": 30,
+      "description": "Penetração de armadura plana"
+    },
+    "magicPenPercent": {
+      "displayName": "Penetração Mágica (%)",
+      "goldValuePerPoint": 46.15,
+      "description": "Penetração de resistência mágica percentual"
+    },
+    "lifeStealPercent": {
+      "displayName": "Roubo de Vida (%)",
+      "goldValuePerPoint": 53.55,
+      "description": "Cura baseada em dano de ataque físico"
+    },
+    "omnivampPercent": {
+      "displayName": "Omnivamp (%)",
+      "goldValuePerPoint": 39.67,
+      "description": "Cura baseada em todo tipo de dano causado"
+    },
+    "moveSpeed": {
+      "displayName": "Velocidade de Movimento (%)",
+      "goldValuePerPoint": 83.75,
+      "description": "Aumenta velocidade de movimento"
+    },
+    "tenacityPercent": {
+      "displayName": "Tenacidade (%)",
+      "goldValuePerPoint": 100,
+      "description": "Reduz duração de controles de grupo"
+    }
+  },
+  "metadata": {
+    "source": "table.md",
+    "description": "Valores em gold estimados por ponto de atributo, baseados no balanceamento do jogo. Apenas atributos que correspondem exatamente à seção 'equipment' de item_attributes.json",
+    "createdAt": "2025-10-14",
+    "version": "1.0"
+  }
+}

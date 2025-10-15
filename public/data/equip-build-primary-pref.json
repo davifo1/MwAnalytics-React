@@ -1,0 +1,263 @@
+{
+  "badger boots L": {
+    "primaryMaterial": "Badger Boots Token",
+    "monsters": [
+      "Undead Dragon"
+    ]
+  },
+  "boots of haste L": {
+    "primaryMaterial": "Boots Of Haste Token",
+    "monsters": [
+      "Anubian Rider"
+    ]
+  },
+  "Magic Shoes L": {
+    "primaryMaterial": "Magic Shoes Token",
+    "monsters": [
+      "Anubian Deathmage"
+    ]
+  },
+  "soft boots L": {
+    "primaryMaterial": "Soft Boots Token",
+    "monsters": [
+      "Anubian Serpent"
+    ]
+  },
+  "steel boots L": {
+    "primaryMaterial": "Steel Boots Token",
+    "monsters": [
+      "Juggernaut"
+    ]
+  },
+  "void boots L": {
+    "primaryMaterial": "Void Boots Token",
+    "monsters": [
+      "Grim Reaper"
+    ]
+  },
+  "arcane staff": {
+    "primaryMaterial": "Heaven Blossom",
+    "monsters": [
+      "Fairy Arcanist"
+    ]
+  },
+  "bonebreaker": {
+    "primaryMaterial": "bonebreaker token",
+    "monsters": [
+      "Spectre"
+    ]
+  },
+  "demon armor": {
+    "primaryMaterial": "Demon Armor Token",
+    "monsters": [
+      "Evil Mage"
+    ]
+  },
+  "demon helmet": {
+    "primaryMaterial": "Demon Helmet Token",
+    "monsters": [
+      "Lost Soul"
+    ]
+  },
+  "demonrage sword": {
+    "primaryMaterial": "demonrage sword token",
+    "monsters": [
+      "Demon"
+    ]
+  },
+  "divine plate": {
+    "primaryMaterial": "divine plate token",
+    "monsters": []
+  },
+  "dragon scale legs": {
+    "primaryMaterial": "Green Dragon Scale",
+    "monsters": [
+      "Goblin Ogre Rider"
+    ]
+  },
+  "dragon scale mail": {
+    "primaryMaterial": "Dragon Scale Mail Token",
+    "monsters": [
+      "Dragon Lord"
+    ]
+  },
+  "eternal flames": {
+    "primaryMaterial": "eternal flames token",
+    "monsters": [
+      "Lich"
+    ]
+  },
+  "Ferumbras hat": {
+    "primaryMaterial": "Warlock Beard",
+    "monsters": [
+      "Warlock"
+    ]
+  },
+  "fireborn giant armor": {
+    "primaryMaterial": "Fireborn Giant Armor Token",
+    "monsters": [
+      "Destroyer"
+    ]
+  },
+  "Frozen Shield": {
+    "primaryMaterial": "Shard",
+    "monsters": [
+      "Frost Dragon"
+    ]
+  },
+  "hailstorm rod": {
+    "primaryMaterial": "Hailstorm Rod Token",
+    "monsters": [
+      "Witch"
+    ]
+  },
+  "hellforged axe": {
+    "primaryMaterial": "Hellforged Axe Token",
+    "monsters": [
+      "Blightwalker"
+    ]
+  },
+  "helmet of the ancients": {
+    "primaryMaterial": "Helmet of the Ancients Token",
+    "monsters": [
+      "Ancient Horror"
+    ]
+  },
+  "holy falcon": {
+    "primaryMaterial": "Holy Falcon Token",
+    "monsters": [
+      "Elder Mageye"
+    ]
+  },
+  "holy scarab": {
+    "primaryMaterial": "Holy Scarab Token",
+    "monsters": [
+      "Marid"
+    ]
+  },
+  "Kraken Slayer": {
+    "primaryMaterial": "Kraken Slayer Token",
+    "monsters": [
+      "Dark Torturer"
+    ]
+  },
+  "magic plate armor": {
+    "primaryMaterial": "Magic Plate Armor Token",
+    "monsters": [
+      "Mimic"
+    ]
+  },
+  "magic sword": {
+    "primaryMaterial": "Hydra Head",
+    "monsters": [
+      "Hydra"
+    ]
+  },
+  "mandrake": {
+    "primaryMaterial": "mandrake token",
+    "monsters": [
+      "Giant Treant"
+    ]
+  },
+  "mastermind shield": {
+    "primaryMaterial": "Mastermind Shield Token",
+    "monsters": [
+      "Tomb Roach"
+    ]
+  },
+  "oceanborn leviathan armor": {
+    "primaryMaterial": "oceanborn leviathan armor token",
+    "monsters": [
+      "Giant Turtle"
+    ]
+  },
+  "ornate crossbow": {
+    "primaryMaterial": "ornate crossbow token",
+    "monsters": [
+      "Vampire"
+    ]
+  },
+  "queens sceptre": {
+    "primaryMaterial": "Soul Stone",
+    "monsters": [
+      "Necromancer"
+    ]
+  },
+  "robe of the underworld": {
+    "primaryMaterial": "robe of the underworld token",
+    "monsters": []
+  },
+  "royal crossbow": {
+    "primaryMaterial": "Blue Note",
+    "monsters": [
+      "Banshee"
+    ]
+  },
+  "solar axe": {
+    "primaryMaterial": "solar axe token",
+    "monsters": [
+      "Diabolic Imp",
+      "Fallen Imp"
+    ]
+  },
+  "spellbook of ancient arcana": {
+    "primaryMaterial": "spellbook of ancient arcana token",
+    "monsters": [
+      "Fungusa"
+    ]
+  },
+  "spellweaver's robe": {
+    "primaryMaterial": "Spider Silk",
+    "monsters": [
+      "Giant Spider"
+    ]
+  },
+  "stonecutter axe": {
+    "primaryMaterial": "Perfect Behemoth Fang",
+    "monsters": [
+      "Behemoth"
+    ]
+  },
+  "Stormsurge": {
+    "primaryMaterial": "Stormsurge Token",
+    "monsters": [
+      "Hellfire Mage"
+    ]
+  },
+  "The Lion Heart": {
+    "primaryMaterial": "The Lion Heart Token",
+    "monsters": [
+      "Betrayed Wraith"
+    ]
+  },
+  "thunder hammer": {
+    "primaryMaterial": "thunder hammer token",
+    "monsters": [
+      "Hellhound Pup"
+    ]
+  },
+  "tiara of power": {
+    "primaryMaterial": "Tiara of Power Token",
+    "monsters": [
+      "Phantasm"
+    ]
+  },
+  "Torment Ring": {
+    "primaryMaterial": "Torment Ring Token",
+    "monsters": [
+      "Fury"
+    ]
+  },
+  "voltage armor": {
+    "primaryMaterial": "Voltage Armor Token",
+    "monsters": [
+      "Nightmare"
+    ]
+  },
+  "warlord sword": {
+    "primaryMaterial": "Piece of Royal Steel",
+    "monsters": [
+      "Orc Warlord"
+    ]
+  }
+}

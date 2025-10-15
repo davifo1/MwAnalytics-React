@@ -1,0 +1,51 @@
+{
+  "None": {
+    "imbuement": [],
+    "craft primary": [],
+    "craft secondary": [],
+    "gem": [],
+    "consumables": [],
+    "egg": [],
+    "fusion": []
+  },
+  "MixedAttacker": {
+    "craft secondary": [
+      "grim potion"
+    ]
+  },
+  "BulkyOffense": {
+    "craft secondary": [
+      "stranger powder"
+    ]
+  },
+  "PhysicalTank": {
+    "craft secondary": [
+      "iron ore"
+    ]
+  },
+  "SpecialAttacker": {
+    "craft secondary": [
+      "shiny dust"
+    ]
+  },
+  "PhysicalAttacker": {
+    "craft secondary": [
+      "grim potion"
+    ]
+  },
+  "GlassCannon": {
+    "craft secondary": [
+      "shiny dust"
+    ]
+  },
+  "Speedster": {
+    "craft secondary": [
+      "shiny dust"
+    ]
+  },
+  "SpecialTank": {
+    "craft secondary": [
+      "iron ore"
+    ]
+  }
+}

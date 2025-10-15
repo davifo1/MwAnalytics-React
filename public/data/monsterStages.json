@@ -1,0 +1,32 @@
+[
+  {
+    "stage": "Beginner",
+    "level_range": "1–15",
+    "description": "rookgaard"
+  },
+  {
+    "stage": "Low-level",
+    "level_range": "15–80",
+    "description": "buscando items epicos"
+  },
+  {
+    "stage": "Intermediate",
+    "level_range": "80–155",
+    "description": "bucando items lendários"
+  },
+  {
+    "stage": "Mid-level",
+    "level_range": "155–250",
+    "description": "full set lendário"
+  },
+  {
+    "stage": "High-level",
+    "level_range": "250–350",
+    "description": "aprimorando fusions e imbuements"
+  },
+  {
+    "stage": "Endgame",
+    "level_range": "350+",
+    "description": "set completo e imbuements"
+  }
+]
