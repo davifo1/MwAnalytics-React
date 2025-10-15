@@ -1,16 +1,21 @@
 // Utility functions for calculating unlock levels for monster loot items
 import { getGoldPerLevelByPower, getBalanceMultiplier } from './rewardsCalculator';
-import lootCategoryTiers from '../../public/data/loot-monster/loot-category-tiers.json';
 
 // ⚙️ CONFIGURAÇÃO: Cap máximo de unlock level
 // Se for -1, não há limite máximo
 export const MAX_UNLOCK_LEVEL = -1;
 
 // Map de prioridades das categorias de loot (maior prioridade = unlock primeiro)
-const lootCategoryPriorities = Object.entries(lootCategoryTiers).reduce((acc, [categoryName, categoryData]) => {
-  acc[categoryName.toLowerCase()] = categoryData.priority || 0;
-  return acc;
-}, {});
+// Hardcoded priorities - higher values unlock first
+const lootCategoryPriorities = {
+  'craft primary': 7,
+  'craft secondary': 6,
+  'legendary': 5,
+  'quest': 4,
+  'special': 3,
+  'race': 2,
+  'general': 1,
+};
 
 
 /**

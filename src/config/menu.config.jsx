@@ -1,15 +1,11 @@
 import {
   TrendingUp,
-  Zap,
   Ghost,
   UserCheck,
   List,
   BarChart3,
-  Package,
   Sword,
-  Coins,
-  Droplet,
-  Map, Crown, Shovel,
+  Map,
   CheckCircle,
   LineChart,
 } from 'lucide-react';
@@ -66,37 +62,6 @@ export const MENU_SIDEBAR_COMPACT = [
         title: 'Validator',
         path: '/monsters/validator',
         icon: CheckCircle,
-      },
-    ],
-  },
-  {
-    title: 'Loot',
-    icon: Crown,
-    children: [
-      {
-        title: 'Equip Build Primary',
-        path: '/drop/equip-build-primary',
-        icon: Sword,
-      },
-      {
-        title: 'Setup Drop by Races',
-        path: '/drop/monster-races',
-        icon: List,
-      },
-      {
-        title: 'Setup Drop by Base Stats Role',
-        path: '/drop/base-stats-role',
-        icon: List,
-      },
-      {
-        title: 'Setup General',
-        path: '/drop/setup-general',
-        icon: List,
-      },
-      {
-        title: 'Categories & Priorities',
-        path: '/drop/categories',
-        icon: Package,
       },
     ],
   },

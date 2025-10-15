@@ -14,7 +14,6 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { MonsterStageSelect } from '@/components/MonsterStageSelect';
-import { getLootCategories } from '@/services/lootCategoryService';
 
 const MonsterLootTable = ({
   loot = [],
@@ -36,10 +35,8 @@ const MonsterLootTable = ({
       .then(data => setMonsterStages(data))
       .catch(err => console.error('Error loading monster stages:', err));
 
-    // Load loot categories
-    getLootCategories()
-      .then(categories => setLootCategories(categories))
-      .catch(err => console.error('Error loading loot categories:', err));
+    // Load loot categories - hardcoded common categories
+    setLootCategories(['Race', 'General', 'Legendary', 'Quest', 'Special']);
   }, []);
 
   // ⭐ Usa a função centralizada de ordenação

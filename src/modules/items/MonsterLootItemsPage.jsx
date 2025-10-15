@@ -65,7 +65,6 @@ import {
 } from '@/components/ui/dialog';
 import { ItemsService } from '@/services/itemsService';
 import { loadBuildableItems, findBuildableItem } from '@/services/baldurService';
-import { LootFromService } from '@/services/lootFromService';
 import { loadAllMonsters } from '@/services/monsterService';
 import { loadSpawnCounts, getSpawnCount } from '@/services/spawnService';
 import { getTierColor, getTierOrder, tierNameSortingFn } from '@/utils/tierUtils';
@@ -339,7 +338,6 @@ const MonsterLootItemsPage = () => {
   const [editingItem, setEditingItem] = useState(null); // Item sendo editado
   const [isEditing, setIsEditing] = useState(false); // Modo de edição
   const [buildableItems, setBuildableItems] = useState([]); // BuildableItems do baldur
-  const [lootFromCache, setLootFromCache] = useState(new Map()); // Cache para lootFrom
   const [allMonsters, setAllMonsters] = useState([]); // Todos os monstros para drop table
   const [spawnCounts, setSpawnCounts] = useState(new Map()); // Contagem de spawns por monstro
 
@@ -1804,22 +1802,6 @@ const MonsterLootItemsPage = () => {
                       return null;
                     }
 
-                    // Carregar lootFrom para todos os items da build se ainda não estiver em cache
-                    const itemNames = buildableItem.build.map(req => req.itemName);
-                    itemNames.forEach(itemName => {
-                      if (!lootFromCache.has(itemName.toLowerCase())) {
-                        LootFromService.getLootFrom(itemName).then(lootFrom => {
-                          if (lootFrom) {
-                            setLootFromCache(prev => {
-                              const newCache = new Map(prev);
-                              newCache.set(itemName.toLowerCase(), lootFrom);
-                              return newCache;
-                            });
-                          }
-                        });
-                      }
-                    });
-
                     return (
                       <div data-panel-id="items-details-build-requirements">
                         <h3 className="text-sm font-semibold mb-3 text-gray-300 uppercase tracking-wider">
@@ -1830,38 +1812,26 @@ const MonsterLootItemsPage = () => {
                             <div className="text-xs text-gray-400 mb-2">
                               Required items to build <span className="text-yellow-300 font-semibold">{editingItem.name?.toLowerCase()}</span>:
                             </div>
-                            {buildableItem.build.map((requirement, index) => {
-                              // Buscar lootFrom do cache
-                              const lootFrom = lootFromCache.get(requirement.itemName?.toLowerCase());
-
-                              return (
-                                <div key={index} className="flex items-center justify-between bg-gray-800/50 rounded p-2">
-                                  <div className="flex items-center gap-2">
-                                    <span className="text-sm text-gray-300">
-                                      {requirement.itemName?.toLowerCase()}
-                                    </span>
-                                    {requirement.fusionLevel && (
-                                      <Badge variant="outline" className="text-xs bg-yellow-900/30 border-yellow-600/50 text-yellow-200">
-                                        Fusion +{requirement.fusionLevel}
-                                      </Badge>
-                                    )}
-                                  </div>
-                                  <div className="flex items-center gap-3">
-                                    {lootFrom && (
-                                      <div className="text-xs text-gray-500 max-w-[200px] truncate" title={lootFrom}>
-                                        Loot from: <span className="text-gray-400">{lootFrom}</span>
-                                      </div>
-                                    )}
-                                    <div className="flex items-center gap-2">
-                                      <span className="text-xs text-gray-500">Qty:</span>
-                                      <Badge variant="secondary" className="text-xs bg-amber-900/30 text-amber-200">
-                                        {requirement.count}x
-                                      </Badge>
-                                    </div>
-                                  </div>
+                            {buildableItem.build.map((requirement, index) => (
+                              <div key={index} className="flex items-center justify-between bg-gray-800/50 rounded p-2">
+                                <div className="flex items-center gap-2">
+                                  <span className="text-sm text-gray-300">
+                                    {requirement.itemName?.toLowerCase()}
+                                  </span>
+                                  {requirement.fusionLevel && (
+                                    <Badge variant="outline" className="text-xs bg-yellow-900/30 border-yellow-600/50 text-yellow-200">
+                                      Fusion +{requirement.fusionLevel}
+                                    </Badge>
+                                  )}
                                 </div>
-                              );
-                            })}
+                                <div className="flex items-center gap-2">
+                                  <span className="text-xs text-gray-500">Qty:</span>
+                                  <Badge variant="secondary" className="text-xs bg-amber-900/30 text-amber-200">
+                                    {requirement.count}x
+                                  </Badge>
+                                </div>
+                              </div>
+                            ))}
                             <div className="mt-3 pt-3 border-t border-yellow-700/50">
                               <div className="text-xs text-amber-400">
                                 ⚔️ This legendary item can be crafted at Baldur NPC

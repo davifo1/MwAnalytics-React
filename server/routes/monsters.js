@@ -23,7 +23,6 @@ function getItemsXmlPath() {
   return path.join(itemsPath, 'items.xml');
 }
 import { readMonsterXml, writeMonsterXml, extractLootSection, parseLootItems, updateLootSection } from '../helpers/monsterXmlHelpers.js';
-import { updateLootInXML, sortLootByUnlockLevel, formatLootItemAsXML } from '../helpers/lootHelpers.js';
 import { calculateUnlockLevelsMap } from '../../src/utils/unlockLevelCalculator.js';
 import {
   MONSTER_ROOT_FIELDS,
@@ -468,109 +467,6 @@ export function monstersRoutes(server) {
   });
 
   // API endpoint to update unlock levels for monster loot items
-  server.middlewares.use('/api/monsters/update-unlock-levels', async (req, res, next) => {
-    console.log(`[Update Unlock Levels] ===== ENDPOINT CALLED =====`);
-    if (req.method !== 'POST') {
-      return sendError(res, 405, 'Method not allowed');
-    }
-
-    try {
-      const { fileName, lootItems } = await parseRequestBody(req);
-      console.log(`[Update Unlock Levels] Processing: ${fileName}, lootItems=${lootItems ? 'provided' : 'NOT provided'}, count=${lootItems?.length || 0}`);
-
-      if (!fileName) {
-        console.error(`[Update Unlock Levels] Invalid params: fileName is required`);
-        return sendError(res, 400, 'fileName is required');
-      }
-
-      const monstersPath = getMonstersPath();
-      const filePath = path.join(monstersPath, fileName);
-
-      if (!fs.existsSync(filePath)) {
-        console.error(`[Update Unlock Levels] File not found: ${filePath}`);
-        return sendError(res, 404, `Monster file not found: ${filePath}`);
-      }
-
-      // Se lootItems não foi fornecido, usar a função de recálculo automático
-      if (!lootItems || !Array.isArray(lootItems)) {
-        console.log(`[Update Unlock Levels] No lootItems provided, auto-recalculating for ${fileName}`);
-        await recalculateUnlockLevelsForMonster(filePath);
-        console.log(`[Update Unlock Levels] SUCCESS: ${fileName} - auto-recalculated unlock levels`);
-        return sendJson(res, 200, { success: true, fileName, autoRecalculated: true });
-      }
-
-      // Caso contrário, usar a lógica antiga (quando lootItems é fornecido)
-      let xmlContent = fs.readFileSync(filePath, 'utf-8');
-      xmlContent = xmlContent.replace(/^\uFEFF/, '');
-
-      const lootRegex = /<loot([^>]*)>([\s\S]*?)<\/loot>/;
-      const lootMatch = xmlContent.match(lootRegex);
-
-      if (!lootMatch) {
-        console.error(`[Update Unlock Levels] No loot section in ${fileName}`);
-        return sendError(res, 400, `No loot section found in: ${fileName}`);
-      }
-
-      // Parse existing items do XML para preservar todos atributos
-      const lootContent = lootMatch[2]; // [2] is content, [1] is attributes
-      const itemRegex = /<item[^>]*\/>/g;
-      const existingItemsXml = lootContent.match(itemRegex) || [];
-
-      // Converter items XML em objetos
-      const existingItems = existingItemsXml.map(itemXml => {
-        const nameMatch = itemXml.match(/name=["']([^"']+)["']/);
-        const chanceMatch = itemXml.match(/chance=["']([^"']+)["']/);
-        const countMaxMatch = itemXml.match(/countmax=["']([^"']+)["']/i);
-        const priorityMatch = itemXml.match(/priority=["']([^"']+)["']/);
-        // Tentar primeiro bko_origin, depois origin (legacy)
-        const bkoOriginMatch = itemXml.match(/bko_origin=["']([^"']+)["']/);
-        const originMatch = itemXml.match(/origin=["']([^"']+)["']/);
-        const bkoInfoMatch = itemXml.match(/bko_info=["']([^"']+)["']/);
-        const bkoSourceMatch = itemXml.match(/bko_source=["']([^"']+)["']/);
-        const unlockLevelMatch = itemXml.match(/unlock_level=["']([^"']+)["']/);
-
-        return {
-          name: nameMatch ? nameMatch[1] : '',
-          chance: chanceMatch ? parseFloat(chanceMatch[1]) : undefined,
-          countMax: countMaxMatch ? parseInt(countMaxMatch[1]) : undefined,
-          priority: priorityMatch ? parseInt(priorityMatch[1]) : undefined,
-          origin: bkoOriginMatch ? bkoOriginMatch[1] : (originMatch ? originMatch[1] : undefined),
-          info: bkoInfoMatch ? bkoInfoMatch[1] : undefined,
-          source: bkoSourceMatch ? bkoSourceMatch[1] : undefined,
-          unlockLevel: unlockLevelMatch ? parseInt(unlockLevelMatch[1]) : undefined
-        };
-      });
-
-      // Atualizar unlock_level dos items existentes
-      const updatedItems = existingItems.map(item => {
-        const lootItem = lootItems.find(li =>
-          li.name.toLowerCase() === item.name.toLowerCase()
-        );
-
-        if (lootItem && lootItem.unlockLevel !== undefined) {
-          return { ...item, unlockLevel: lootItem.unlockLevel };
-        }
-
-        return item;
-      });
-
-      // Usar função genérica para atualizar XML com ordenação e formatação
-      xmlContent = updateLootInXML(xmlContent, updatedItems);
-      fs.writeFileSync(filePath, xmlContent, 'utf-8');
-
-      console.log(`[Update Unlock Levels] SUCCESS: ${fileName} - updated ${lootItems.length} items`);
-      sendJson(res, 200, { success: true, fileName, updatedCount: lootItems.length });
-
-    } catch (error) {
-      console.error('[Update Unlock Levels] Error:', error);
-      if (error.message === 'Invalid JSON in request body') {
-        sendError(res, 400, error.message);
-      } else {
-        sendError(res, 500, 'Internal server error');
-      }
-    }
-  });
-
   // API endpoint to add items based on race configuration
   server.middlewares.use('/api/monsters/add-race-items', async (req, res, next) => {
     if (req.method !== 'POST') {
